@@ -1,0 +1,278 @@
+# Course manifest for ATS124 - Fundamentals, Architecture & tkn CLI (Tekton).
+#
+# One entry per section under `modules:`. Each section lists, in order: its
+# README, then for each module the landing page (course.md), its parts
+# (course-0N-*.md), and right after the part a lab tests, the lab's
+# question.md reading and the `type: lab` entry. The module's summary page
+# comes last. The section capstone closes the section. Playgrounds are not
+# listed: the landing page's playground marker shows them. solution.md is
+# never listed.
+#
+# Every `path:` is relative to this file.
+
+training:
+  id: ATS124
+  title: "Tekton: Fundamentals, Architecture & The tkn CLI"
+  maturity: draft
+  description: >
+    Training material covering the Fundamentals, Architecture & tkn CLI
+    domain of the Tekton training path: what Tekton is and the projects of its
+    ecosystem, the Kubernetes-native execution model (custom resources, one
+    pod per TaskRun, one container per step, the entrypoint binary, parameters,
+    results and status conditions), installing Tekton Pipelines and the
+    Tekton Dashboard on a kind cluster, configuring defaults and feature
+    flags, and starting, inspecting and cleaning up work with the tkn CLI and
+    kubeconfig contexts. Each module pairs a layered reader with an ungraded
+    hands-on playground and a graded practice lab. Each section closes with an
+    integration capstone. Written for Tekton Pipelines v1.17.1, Tekton
+    Dashboard v0.73.0 and tkn v0.46.2.
+
+  certification:
+    name: Tekton
+    code: TEKTON
+    provider: Astrona
+    domain: "Fundamentals, Architecture & tkn CLI"
+    weight: 10
+
+modules:
+
+  - id: module-intro
+    title: "Introduction"
+    description: >
+      Start here. What this course trains you to do, how it is laid out, how
+      to get your machine ready with the astrona command-line tool, how the
+      content is written and checked, who maintains it, and how to report a
+      mistake.
+
+    content:
+      - type: reading
+        title: Introduction
+        path: sections/intro/README.md
+      - type: reading
+        title: "Welcome To The Course"
+        path: sections/intro/course-01-welcome.md
+      - type: reading
+        title: "Get Your Machine Ready"
+        path: sections/intro/course-02-get-your-machine-ready.md
+      - type: reading
+        title: "How This Course Is Made"
+        path: sections/intro/course-03-how-this-course-is-made.md
+
+  - id: module-010
+    title: "Tekton Architecture And The Execution Model"
+    description: >
+      What Tekton is and where it sits, the custom resources and components of
+      Tekton Pipelines, the Tekton ecosystem, and how a TaskRun runs: one pod
+      per TaskRun, one container per step, the entrypoint binary, shared
+      folders, parameters, results and the Succeeded condition.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-010/README.md
+
+      - type: reading
+        title: "See How Tekton Runs A Task"
+        path: sections/section-010/module-01/course.md
+      - type: reading
+        title: "What Tekton Is And The Tekton Ecosystem"
+        path: sections/section-010/module-01/course-01-what-tekton-is-and-its-ecosystem.md
+      - type: reading
+        title: "One Pod Per TaskRun, One Container Per Step"
+        path: sections/section-010/module-01/course-02-one-pod-per-taskrun.md
+      - type: reading
+        title: "Parameters, Results And The Status Of A TaskRun"
+        path: sections/section-010/module-01/course-03-params-results-and-status.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Diagnose A Failing TaskRun Lab"
+        path: sections/section-010/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 20m
+        topic: execution-model
+        task_kind: troubleshooting
+        tags: [taskrun, params, status-conditions, step, workspace-dir, pod-per-taskrun, results]
+        learning_goals:
+          - Read why a TaskRun failed from its Succeeded condition, its pod and its step logs
+          - Fix a wrong parameter name and a file that steps cannot share
+          - Prove the fix with a TaskRun that succeeds with the expected result
+        resources:
+          - name: "TaskRuns"
+            url: https://tekton.dev/docs/pipelines/taskruns/
+          - name: "Tasks"
+            url: https://tekton.dev/docs/pipelines/tasks/
+          - name: "Concept model"
+            url: https://tekton.dev/docs/concepts/concept-model/
+      - type: reading
+        title: Summary
+        path: sections/section-010/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-010/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Repair A Multi-Step Task Capstone"
+        path: sections/section-010/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: execution-model
+        task_kind: troubleshooting
+        tags: [task, taskrun, step, serviceaccount, entrypoint, pod-per-taskrun, status-conditions]
+        learning_goals:
+          - Find each fault of a TaskRun from its status, its pod and its step logs, one after the other
+          - Fix a Task in the wrong namespace, a missing ServiceAccount and steps in the wrong order
+          - Prove that the pod ran as the right ServiceAccount with one container per step
+        resources:
+          - name: "TaskRuns"
+            url: https://tekton.dev/docs/pipelines/taskruns/
+          - name: "Tasks"
+            url: https://tekton.dev/docs/pipelines/tasks/
+          - name: "Authentication at run time"
+            url: https://tekton.dev/docs/pipelines/auth/
+
+  - id: module-020
+    title: "Install Tekton Pipelines And The Dashboard"
+    description: >
+      Installing Tekton Pipelines from its release manifest and verifying it,
+      what the release creates, changing defaults in config-defaults, reading
+      feature-flags, and installing the Tekton Dashboard in read-only or
+      read/write mode.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-020/README.md
+
+      - type: reading
+        title: "Install And Configure Tekton"
+        path: sections/section-020/module-01/course.md
+      - type: reading
+        title: "Install Tekton Pipelines From The Release Manifest"
+        path: sections/section-020/module-01/course-01-install-tekton-pipelines.md
+      - type: reading
+        title: "Configure Defaults And Feature Flags"
+        path: sections/section-020/module-01/course-02-config-defaults-and-feature-flags.md
+      - type: reading
+        title: "Install The Tekton Dashboard"
+        path: sections/section-020/module-01/course-03-install-the-dashboard.md
+      - type: reading
+        title: Question
+        path: sections/section-020/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Finish A Tekton Installation Lab"
+        path: sections/section-020/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 20m
+        topic: installation
+        task_kind: build
+        tags: [release-manifest, dashboard, read-only-dashboard, config-defaults, serviceaccount, webhook]
+        learning_goals:
+          - Install the read-only Tekton Dashboard from its release manifest
+          - Set the default timeout and ServiceAccount in config-defaults
+          - Prove the installation with a TaskRun that picks up the new defaults
+        resources:
+          - name: "Install Tekton Pipelines"
+            url: https://tekton.dev/docs/installation/pipelines/
+          - name: "Additional configuration options"
+            url: https://tekton.dev/docs/pipelines/additional-configs/
+          - name: "Install the Tekton Dashboard"
+            url: https://tekton.dev/docs/dashboard/install/
+      - type: reading
+        title: Summary
+        path: sections/section-020/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-020/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Repair A Broken Tekton Installation Capstone"
+        path: sections/section-020/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: installation
+        task_kind: troubleshooting
+        tags: [webhook, pipelines-controller, dashboard, read-only-dashboard, rbac, release-manifest]
+        learning_goals:
+          - Find why the API server refuses Tekton objects and why runs do not start
+          - Bring back the webhook and the controller, and switch the Dashboard to read-only without leftover permissions
+          - Prove the installation with a smoke-test TaskRun
+        resources:
+          - name: "Install Tekton Pipelines"
+            url: https://tekton.dev/docs/installation/pipelines/
+          - name: "Install the Tekton Dashboard"
+            url: https://tekton.dev/docs/dashboard/install/
+          - name: "Tekton overview"
+            url: https://tekton.dev/docs/concepts/overview/
+
+  - id: module-030
+    title: "Run And Inspect Work With The tkn CLI"
+    description: >
+      Installing tkn and checking it with tkn version, kubeconfig contexts and
+      namespaces, starting Tasks with parameters and following their logs, and
+      describing, reading and cleaning up TaskRuns.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-030/README.md
+
+      - type: reading
+        title: "Run And Inspect Work With tkn"
+        path: sections/section-030/module-01/course.md
+      - type: reading
+        title: "Set Up tkn And Choose The Cluster And Namespace"
+        path: sections/section-030/module-01/course-01-set-up-tkn-and-contexts.md
+      - type: reading
+        title: "Start Tasks With tkn"
+        path: sections/section-030/module-01/course-02-start-tasks-with-tkn.md
+      - type: reading
+        title: "Inspect And Clean Up TaskRuns"
+        path: sections/section-030/module-01/course-03-inspect-and-clean-up-taskruns.md
+      - type: reading
+        title: Question
+        path: sections/section-030/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Run A Parameterised Task With tkn Lab"
+        path: sections/section-030/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 15m
+        topic: cli
+        task_kind: build
+        tags: [tkn, tkn-task-start, namespaces, params, results, tkn-taskrun-delete]
+        learning_goals:
+          - Start a Task with tkn in the right namespace and pass a parameter
+          - Read the result of the run with tkn
+          - Remove stray TaskRuns from the wrong namespace without deleting Tasks
+        resources:
+          - name: "Tekton CLI"
+            url: https://tekton.dev/docs/cli/
+          - name: "TaskRuns"
+            url: https://tekton.dev/docs/pipelines/taskruns/
+      - type: reading
+        title: Summary
+        path: sections/section-030/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-030/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Triage And Rerun Work With tkn Capstone"
+        path: sections/section-030/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: cli
+        task_kind: troubleshooting
+        tags: [tkn-taskrun-describe, tkn-taskrun-logs, tkn-version, tkn-taskrun-delete, tkn-task-start, params]
+        learning_goals:
+          - Find failed TaskRuns and the step that failed with tkn taskrun describe and tkn taskrun logs
+          - Delete only the failed runs and record a short triage
+          - Start a Task with two parameters and check its result
+        resources:
+          - name: "Tekton CLI"
+            url: https://tekton.dev/docs/cli/
+          - name: "TaskRuns"
+            url: https://tekton.dev/docs/pipelines/taskruns/
+          - name: "Tasks"
+            url: https://tekton.dev/docs/pipelines/tasks/

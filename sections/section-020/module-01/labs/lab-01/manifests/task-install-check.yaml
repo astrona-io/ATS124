@@ -1,0 +1,18 @@
+# The one-step Task the learner runs to prove the installation.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: install-check
+  namespace: starfleet
+spec:
+  results:
+    - name: status
+      description: "ok when the step ran"
+  steps:
+    - name: check
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        echo "Tekton runs in starfleet"
+        printf 'ok' | tee "$(results.status.path)"

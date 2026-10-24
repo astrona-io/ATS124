@@ -1,0 +1,12 @@
+# A stray run in the namespace default, made by someone who forgot -n.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: hello-run-stray
+  namespace: default
+spec:
+  taskRef:
+    name: hello
+  params:
+    - name: crew
+      value: bridge

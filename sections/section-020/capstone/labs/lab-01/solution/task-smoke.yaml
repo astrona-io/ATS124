@@ -1,0 +1,21 @@
+# The smoke-test Task from the question. The learner applies it once the
+# webhook answers again.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: smoke
+  namespace: starfleet
+spec:
+  params:
+    - name: crew
+      type: string
+  results:
+    - name: message
+      description: One line that names the crew member
+  steps:
+    - name: smoke
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        printf 'smoke test passed for %s' "$(params.crew)" | tee "$(results.message.path)"

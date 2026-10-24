@@ -1,0 +1,60 @@
+# Finish A Tekton Installation
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-124-lab-020-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-tekton"
+      description: "Installs the tkn CLI 0.46.2 and Tekton Pipelines v1.17.1 (no Dashboard), and waits until the webhook answers"
+      type: "file"
+      source: "bootstrap/01-install-tekton.sh"
+    - name: "ats-124-lab-020-01-setup"
+      description: "Changes config-defaults away from the team's rules and applies the Task install-check"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The namespace starfleet"
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "wait-for-tekton"
+      description: "Waits until every Tekton Deployment is ready"
+      type: "file"
+      source: "testing/wait-for-tekton.sh"
+    - name: "reference-solution"
+      description: "The steps a correct learner takes; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-pipelines-healthy"
+      description: "Confirms the four Tekton Pipelines Deployments are Available and the version is v1.17.1"
+      type: "file"
+      source: "validation/validate-pipelines-healthy.sh"
+    - name: "validate-dashboard-readonly"
+      description: "Confirms the Dashboard v0.73.0 runs read-only and sees Pipelines v1.17.1"
+      type: "file"
+      source: "validation/validate-dashboard-readonly.sh"
+    - name: "validate-defaults"
+      description: "Creates a TaskRun without timeout and ServiceAccount and confirms it gets 20m0s and default, and succeeds"
+      type: "file"
+      source: "validation/validate-defaults.sh"
+    - name: "validate-install-check-run"
+      description: "Confirms install-check-run ran with the new defaults and reports status=ok"
+      type: "file"
+      source: "validation/validate-install-check-run.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - busybox:1.37.0

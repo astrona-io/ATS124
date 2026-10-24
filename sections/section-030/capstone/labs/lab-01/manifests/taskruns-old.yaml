@@ -1,0 +1,58 @@
+# Old runs of deploy-check: two succeed (bridge, scout), two fail in the
+# step validate (probe on deck 9, shuttle on deck 12).
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: deploy-check-run-a1b2c
+  namespace: starfleet
+spec:
+  taskRef:
+    name: deploy-check
+  params:
+    - name: crew
+      value: bridge
+    - name: deck
+      value: "1"
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: deploy-check-run-d3e4f
+  namespace: starfleet
+spec:
+  taskRef:
+    name: deploy-check
+  params:
+    - name: crew
+      value: scout
+    - name: deck
+      value: "2"
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: deploy-check-run-g5h6i
+  namespace: starfleet
+spec:
+  taskRef:
+    name: deploy-check
+  params:
+    - name: crew
+      value: probe
+    - name: deck
+      value: "9"
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: deploy-check-run-j7k8l
+  namespace: starfleet
+spec:
+  taskRef:
+    name: deploy-check
+  params:
+    - name: crew
+      value: shuttle
+    - name: deck
+      value: "12"

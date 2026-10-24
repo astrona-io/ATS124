@@ -1,0 +1,12 @@
+# The smoke-test TaskRun from the question.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: smoke-run
+  namespace: starfleet
+spec:
+  taskRef:
+    name: smoke
+  params:
+    - name: crew
+      value: probe

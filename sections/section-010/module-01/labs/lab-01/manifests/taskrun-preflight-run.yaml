@@ -1,0 +1,13 @@
+# The TaskRun the lab starts with. It has a fault: it passes the parameter
+# "targets", but the Task declares "target" (without a default).
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: preflight-run
+  namespace: starfleet
+spec:
+  taskRef:
+    name: preflight
+  params:
+    - name: targets
+      value: bridge

@@ -1,0 +1,56 @@
+# Repair A Broken Tekton Installation (section 020 capstone)
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-124-capstone-020"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-tekton"
+      description: "Installs the tkn CLI 0.46.2, Tekton Pipelines v1.17.1 and the read/write Tekton Dashboard v0.73.0"
+      type: "file"
+      source: "bootstrap/01-install-tekton.sh"
+    - name: "ats-124-capstone-020-setup"
+      description: "Scales the Tekton webhook and controller to zero"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The namespace starfleet"
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "wait-for-tekton"
+      description: "Waits until every Tekton Deployment that is not scaled to zero is ready"
+      type: "file"
+      source: "testing/wait-for-tekton.sh"
+    - name: "reference-solution"
+      description: "The repair a correct learner makes; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-tekton-components"
+      description: "Confirms the four Tekton Deployments are ready and the webhook admits a Task"
+      type: "file"
+      source: "validation/validate-tekton-components.sh"
+    - name: "validate-dashboard-readonly"
+      description: "Confirms the Dashboard runs read-only and no edit ClusterRoleBinding is left"
+      type: "file"
+      source: "validation/validate-dashboard-readonly.sh"
+    - name: "validate-smoke-run"
+      description: "Confirms smoke-run succeeded with the expected result and a new TaskRun starts and succeeds"
+      type: "file"
+      source: "validation/validate-smoke-run.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - busybox:1.37.0

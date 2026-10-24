@@ -1,0 +1,14 @@
+# Reference TaskRun: the same spec as the seeded one, created again after the
+# Task and the ServiceAccount exist.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: inspect-run
+  namespace: starfleet
+spec:
+  serviceAccountName: inspector
+  taskRef:
+    name: inspect
+  params:
+    - name: target
+      value: scout

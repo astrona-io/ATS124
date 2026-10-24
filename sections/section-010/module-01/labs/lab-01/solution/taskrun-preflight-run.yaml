@@ -1,0 +1,12 @@
+# Reference end state of the TaskRun: the parameter name matches the Task.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: preflight-run
+  namespace: starfleet
+spec:
+  taskRef:
+    name: preflight
+  params:
+    - name: target
+      value: bridge

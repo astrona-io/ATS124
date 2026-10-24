@@ -1,0 +1,15 @@
+# The TaskRun the capstone starts with. It is correct as written, but the
+# Task inspect does not exist in starfleet and the ServiceAccount inspector
+# does not exist either.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: inspect-run
+  namespace: starfleet
+spec:
+  serviceAccountName: inspector
+  taskRef:
+    name: inspect
+  params:
+    - name: target
+      value: scout

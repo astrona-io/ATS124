@@ -1,0 +1,10 @@
+# Reference TaskRun: no timeout and no ServiceAccount, so both come from
+# config-defaults.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: install-check-run
+  namespace: starfleet
+spec:
+  taskRef:
+    name: install-check

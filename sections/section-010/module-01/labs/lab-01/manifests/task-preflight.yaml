@@ -1,0 +1,37 @@
+# The Task the lab starts with. It has a fault: the step collect writes its
+# file to /tmp, which is private to its own container, so the step verify
+# cannot read it. Fixing the Task is part of the task.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: preflight
+  namespace: starfleet
+spec:
+  params:
+    - name: target
+      type: string
+      description: The crew member the checks are for
+    - name: checks
+      type: string
+      description: Space-separated list of systems to check
+      default: "engines shields sensors"
+  results:
+    - name: summary
+      description: How many checks passed, and for whom
+  steps:
+    - name: collect
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        for check in $(params.checks); do
+          echo "$check ok" >> /tmp/checks.txt
+        done
+        echo "Collected the checks for $(params.target)"
+    - name: verify
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        passed="$(grep -c ' ok$' /tmp/checks.txt)"
+        printf '%s: %s checks passed' "$(params.target)" "$passed" | tee "$(results.summary.path)"

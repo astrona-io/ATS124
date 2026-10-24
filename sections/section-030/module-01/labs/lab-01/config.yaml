@@ -1,0 +1,52 @@
+# Run A Parameterised Task With tkn
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-124-lab-030-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-tekton"
+      description: "Installs the tkn CLI 0.46.2 and Tekton Pipelines v1.17.1, and waits until the webhook answers"
+      type: "file"
+      source: "bootstrap/01-install-tekton.sh"
+    - name: "ats-124-lab-030-01-setup"
+      description: "Applies the Task hello to starfleet, a decoy Task hello to default, and one stray TaskRun in default"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The namespace starfleet"
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "wait-for-tekton"
+      description: "Waits until every Tekton Deployment is ready"
+      type: "file"
+      source: "testing/wait-for-tekton.sh"
+    - name: "reference-solution"
+      description: "The tkn commands a correct learner runs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-hello-run"
+      description: "Confirms a hello-run-... TaskRun in starfleet ran hello with crew=bridge and reports 'Hello, bridge!'"
+      type: "file"
+      source: "validation/validate-hello-run.sh"
+    - name: "validate-default-clean"
+      description: "Confirms no TaskRun is left in default and both Tasks hello still exist"
+      type: "file"
+      source: "validation/validate-default-clean.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - busybox:1.37.0

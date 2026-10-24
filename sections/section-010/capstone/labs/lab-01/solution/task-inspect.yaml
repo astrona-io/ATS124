@@ -1,0 +1,39 @@
+# Reference end state of the Task: in starfleet, steps in the order
+# scan, summarize, report.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: inspect
+  namespace: starfleet
+spec:
+  params:
+    - name: target
+      type: string
+      description: The crew member whose area is inspected
+  results:
+    - name: report
+      description: One line with the number of findings and the status
+  steps:
+    - name: scan
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        for area in hull deck cargo; do
+          echo "$(params.target) $area clear" >> /workspace/scan.txt
+        done
+        echo "Scanned 3 areas for $(params.target)"
+    - name: summarize
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        count="$(grep -c ' clear$' /workspace/scan.txt)"
+        echo "$count findings" > /workspace/summary.txt
+        cat /workspace/summary.txt
+    - name: report
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        printf '%s: %s, status green' "$(params.target)" "$(cat /workspace/summary.txt)" | tee "$(results.report.path)"

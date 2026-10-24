@@ -1,0 +1,22 @@
+# The Task the learner must run: hello in starfleet.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: hello
+  namespace: starfleet
+spec:
+  description: Greets one crew member.
+  params:
+    - name: crew
+      type: string
+      description: The crew member to greet
+  results:
+    - name: greeting
+      description: The greeting that was printed
+  steps:
+    - name: greet
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        printf 'Hello, %s!' "$(params.crew)" | tee "$(results.greeting.path)"

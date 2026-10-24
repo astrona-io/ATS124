@@ -1,0 +1,36 @@
+# The Task of the capstone: two parameters, two steps. The step validate fails
+# for a deck number outside 1 to 5.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: deploy-check
+  namespace: starfleet
+spec:
+  description: Checks that a crew member can be sent to a deck.
+  params:
+    - name: crew
+      type: string
+      description: The crew member to send
+    - name: deck
+      type: string
+      description: The deck number, 1 to 5
+      default: "1"
+  results:
+    - name: greeting
+      description: The announcement that was printed
+  steps:
+    - name: validate
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        case "$(params.deck)" in
+          1|2|3|4|5) echo "Deck $(params.deck) exists" ;;
+          *) echo "Deck $(params.deck) does not exist" >&2; exit 1 ;;
+        esac
+    - name: announce
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        printf 'Hello, %s on deck %s!' "$(params.crew)" "$(params.deck)" | tee "$(results.greeting.path)"
