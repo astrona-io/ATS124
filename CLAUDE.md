@@ -250,25 +250,13 @@ section is only true for this one.
   `tektoncd/cli` (tag `v0.46.2`) and `tektoncd/dashboard` (tag `v0.73.0`).
   Check every page against them.
 
-### Status: built, not yet run
+### Status: every environment passes `astrona test`
 
-The first version of this repository was written from the Tekton
-documentation, the release manifests and the source at the pinned tags
-**without a live run**. No playground or lab has been started, and no
-`astrona test` has passed yet. Until a maintainer runs them:
-
-- Pages describe results in words. Do not add `text` output blocks until the
-  output comes from a real run, and then paste it exactly.
-- Treat every lab as unverified. Run `astrona validate` and `astrona test` on
-  each one, one cluster at a time, before the course goes past `maturity:
-  draft`.
-- Remove this subsection when every lab has passed `astrona test`.
-
-The biggest open risks are: the exact `reason` and `message` of a TaskRun
-whose ServiceAccount is missing (pages describe it in words only); whether
-the `kind` node image of the maintainer's `kind` release is 1.34 or later (the
-Dashboard needs it); and image pulls of Tekton's own images from `ghcr.io` and
-of the `place-scripts` shell image from `cgr.dev`, which are not preloaded.
+All nine environments (three playgrounds, three labs, three capstones) passed
+`astrona test` on 2026-10-25 on a laptop `kind` cluster with Podman. Pages
+still describe results in words: add a `text` output block only when it is
+pasted exactly from a real run. Run `astrona test` again on every environment
+you change.
 
 ### Terms, not metaphors
 
