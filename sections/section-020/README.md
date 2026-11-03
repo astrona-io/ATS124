@@ -41,6 +41,15 @@ This module is about running the installation: logs, high availability, limits a
 4. The Tekton Operator And TektonConfig
 5. Summary
 
+### 3. Install Tekton With The Operator
+
+A module on installing Tekton with the Operator: install it, create the `TektonConfig`, change, upgrade and remove. Its playground has only `tkn`.
+
+1. Install The Operator
+2. Create The TektonConfig
+3. Change, Upgrade And Remove, followed by the lab **Install Tekton With The Operator**
+4. Summary
+
 ## Section capstone: Repair A Broken Tekton Installation
 
 The capstone is one graded scenario that combines the first module. Someone "cleaned up" the Tekton installation of the `starfleet` team: TaskRuns no longer start, no Task can be applied, and the Dashboard lets anyone change and delete runs although the team asked for a read-only Dashboard. Find out which component stopped and why, bring the installation back, and prove it with a TaskRun. Work it after the module lab.

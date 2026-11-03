@@ -378,3 +378,49 @@ questions:
         explanation: "Not correct. No such command."
     correct_option: c
     explanation: "Correct. The run ends with Succeeded=False."
+
+  - id: ats124-final-q17
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the project"
+    source_readings:
+      - sections/section-010/module-04/course-03-chains-sign-what-runs-produce.md
+    prompt: "Which project starts a PipelineRun when a webhook arrives?"
+    options:
+      - id: a
+        text: "Tekton Triggers"
+        explanation: "Correct. Triggers acts before a run; Chains acts after it."
+      - id: b
+        text: "Tekton Chains"
+        explanation: "Not correct. It signs finished runs."
+      - id: c
+        text: "Tekton Dashboard"
+        explanation: "Not correct. It shows runs."
+      - id: d
+        text: "Tekton Results"
+        explanation: "Not correct. It stores results."
+    correct_option: a
+    explanation: "Correct. Triggers acts before a run; Chains acts after it."
+
+  - id: ats124-final-q18
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Own a setting"
+    source_readings:
+      - sections/section-020/module-03/course-03-change-upgrade-and-remove.md
+    prompt: "On a cluster managed by the Operator, you edit config-defaults by hand. What happens?"
+    options:
+      - id: a
+        text: "The change stays."
+        explanation: "Not correct. The Operator owns the ConfigMap."
+      - id: b
+        text: "The Operator writes the old value back."
+        explanation: "Correct. Change the TektonConfig instead."
+      - id: c
+        text: "The cluster stops."
+        explanation: "Not correct. Nothing stops."
+      - id: d
+        text: "Tekton is uninstalled."
+        explanation: "Not correct. It is not."
+    correct_option: b
+    explanation: "Correct. Change the TektonConfig instead."

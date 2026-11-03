@@ -1,0 +1,245 @@
+# Knowledge check for module 020-03. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+id: ats124-020-03
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "Install Tekton With The Operator"
+placement:
+  position: after
+  reading: sections/section-020/module-03/course-04-summary.md
+questions:
+  - id: ats124-020-03-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say what the Operator installs"
+    source_readings:
+      - sections/section-020/module-03/course-01-install-the-operator.md
+    prompt: "What does applying the Operator release manifest install?"
+    options:
+      - id: a
+        text: "The Operator Deployments and CRDs, but not Tekton Pipelines yet."
+        explanation: "Correct. The Operator waits for a TektonConfig."
+      - id: b
+        text: "Tekton Pipelines and the Dashboard."
+        explanation: "Not correct. That needs a TektonConfig."
+      - id: c
+        text: "Only the tkn CLI."
+        explanation: "Not correct. tkn is not part of it."
+      - id: d
+        text: "A TektonConfig named config."
+        explanation: "Not correct. You create that yourself."
+    correct_option: a
+    explanation: "Correct. The Operator waits for a TektonConfig."
+
+  - id: ats124-020-03-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Find the Operator"
+    source_readings:
+      - sections/section-020/module-03/course-01-install-the-operator.md
+    prompt: "In which namespace does the Operator run?"
+    options:
+      - id: a
+        text: "tekton-pipelines"
+        explanation: "Not correct. That is where the components are installed."
+      - id: b
+        text: "tekton-operator"
+        explanation: "Correct. It has two Deployments: tekton-operator and tekton-operator-webhook."
+      - id: c
+        text: "kube-system"
+        explanation: "Not correct. Tekton does not use it."
+      - id: d
+        text: "default"
+        explanation: "Not correct. Not used by the Operator."
+    correct_option: b
+    explanation: "Correct. It has two Deployments: tekton-operator and tekton-operator-webhook."
+
+  - id: ats124-020-03-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Pin a release"
+    source_readings:
+      - sections/section-020/module-03/course-01-install-the-operator.md
+    prompt: "Why use a previous/VERSION folder instead of latest in production?"
+    options:
+      - id: a
+        text: "latest is not allowed."
+        explanation: "Not correct. It works, but it moves."
+      - id: b
+        text: "previous is faster."
+        explanation: "Not correct. Speed is the same."
+      - id: c
+        text: "The same command gives the same result next week."
+        explanation: "Correct. A later apply of latest may install a different release."
+      - id: d
+        text: "latest needs a license."
+        explanation: "Not correct. Not true."
+    correct_option: c
+    explanation: "Correct. A later apply of latest may install a different release."
+
+  - id: ats124-020-03-q04
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the TektonConfig"
+    source_readings:
+      - sections/section-020/module-03/course-02-create-the-tektonconfig.md
+    prompt: "What must the TektonConfig be named?"
+    options:
+      - id: a
+        text: "tekton"
+        explanation: "Not correct. The Operator looks for config."
+      - id: b
+        text: "default"
+        explanation: "Not correct. The Operator looks for config."
+      - id: c
+        text: "Any name"
+        explanation: "Not correct. Only one resource named config is used."
+      - id: d
+        text: "config"
+        explanation: "Correct. There is exactly one TektonConfig."
+    correct_option: d
+    explanation: "Correct. There is exactly one TektonConfig."
+
+  - id: ats124-020-03-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose a profile"
+    source_readings:
+      - sections/section-020/module-03/course-02-create-the-tektonconfig.md
+    prompt: "Which profile installs only Tekton Pipelines?"
+    options:
+      - id: a
+        text: "lite"
+        explanation: "Correct. Start with lite and move up."
+      - id: b
+        text: "basic"
+        explanation: "Not correct. It adds Triggers and Chains."
+      - id: c
+        text: "all"
+        explanation: "Not correct. It adds the Dashboard as well."
+      - id: d
+        text: "minimal"
+        explanation: "Not correct. No such profile."
+    correct_option: a
+    explanation: "Correct. Start with lite and move up."
+
+  - id: ats124-020-03-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read why a component is not ready"
+    source_readings:
+      - sections/section-020/module-03/course-02-create-the-tektonconfig.md
+    prompt: "Where do you read why a component is not ready?"
+    options:
+      - id: a
+        text: "In the Operator CRDs."
+        explanation: "Not correct. CRDs hold no status."
+      - id: b
+        text: "In the conditions of the TektonConfig, with kubectl describe."
+        explanation: "Correct. The conditions name the component and the reason."
+      - id: c
+        text: "Only in the pod logs of the node."
+        explanation: "Not correct. The conditions name the component first."
+      - id: d
+        text: "In config-defaults."
+        explanation: "Not correct. It holds settings."
+    correct_option: b
+    explanation: "Correct. The conditions name the component and the reason."
+
+  - id: ats124-020-03-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Change a setting"
+    source_readings:
+      - sections/section-020/module-03/course-03-change-upgrade-and-remove.md
+    prompt: "Where do you set the default timeout on an Operator-managed cluster?"
+    options:
+      - id: a
+        text: "Directly in config-defaults."
+        explanation: "Not correct. The Operator writes its value back."
+      - id: b
+        text: "In the Deployment."
+        explanation: "Not correct. It is not a Deployment setting."
+      - id: c
+        text: "Under spec.pipeline in the TektonConfig."
+        explanation: "Correct. The Operator writes the value into config-defaults."
+      - id: d
+        text: "In the webhook."
+        explanation: "Not correct. The webhook holds no such setting."
+    correct_option: c
+    explanation: "Correct. The Operator writes the value into config-defaults."
+
+  - id: ats124-020-03-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Add a component"
+    source_readings:
+      - sections/section-020/module-03/course-03-change-upgrade-and-remove.md
+    prompt: "How do you add Triggers and Chains?"
+    options:
+      - id: a
+        text: "Apply their release manifests."
+        explanation: "Not correct. The Operator would fight your manifests."
+      - id: b
+        text: "Scale the Operator."
+        explanation: "Not correct. It does not add components."
+      - id: c
+        text: "Rename the TektonConfig."
+        explanation: "Not correct. The name must stay config."
+      - id: d
+        text: "Change the profile to basic."
+        explanation: "Correct. The Operator then installs them."
+    correct_option: d
+    explanation: "Correct. The Operator then installs them."
+
+  - id: ats124-020-03-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Upgrade"
+    source_readings:
+      - sections/section-020/module-03/course-03-change-upgrade-and-remove.md
+    prompt: "How do you upgrade the components?"
+    options:
+      - id: a
+        text: "Apply a newer Operator release."
+        explanation: "Correct. The Operator moves the components to the versions of that release."
+      - id: b
+        text: "Apply the Pipelines release manifest."
+        explanation: "Not correct. The Operator undoes it."
+      - id: c
+        text: "Edit the image in each Deployment."
+        explanation: "Not correct. The Operator writes it back."
+      - id: d
+        text: "Delete config-defaults."
+        explanation: "Not correct. It has no effect on versions."
+    correct_option: a
+    explanation: "Correct. The Operator moves the components to the versions of that release."
+
+  - id: ats124-020-03-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Remove in order"
+    source_readings:
+      - sections/section-020/module-03/course-03-change-upgrade-and-remove.md
+    prompt: "What is the safe order to remove an Operator-managed installation?"
+    options:
+      - id: a
+        text: "Delete the Operator first."
+        explanation: "Not correct. The components stay behind with no manager."
+      - id: b
+        text: "Delete the TektonConfig, wait for the components to go, then delete the Operator."
+        explanation: "Correct. The TektonConfig is what the Operator reads."
+      - id: c
+        text: "Delete the CRDs first."
+        explanation: "Not correct. That removes the objects without cleanup."
+      - id: d
+        text: "Delete the namespace tekton-pipelines."
+        explanation: "Not correct. The Operator would recreate it."
+    correct_option: b
+    explanation: "Correct. The TektonConfig is what the Operator reads."

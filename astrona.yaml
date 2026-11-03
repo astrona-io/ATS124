@@ -201,6 +201,46 @@ modules:
         pass_score: 70
 
       - type: reading
+        title: "Meet Triggers And Chains"
+        path: sections/section-010/module-04/course.md
+      - type: reading
+        title: "Triggers: From Event To Run"
+        path: sections/section-010/module-04/course-01-triggers-from-event-to-run.md
+      - type: reading
+        title: "Install And Use Triggers"
+        path: sections/section-010/module-04/course-02-install-and-use-triggers.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-04/labs/lab-01/question.md
+      - type: lab
+        title: "Wire A Trigger To A Pipeline Lab"
+        path: sections/section-010/module-04/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: architecture
+        task_kind: build
+        tags: [ecosystem, crds, pipeline, pipelinerun, serviceaccount, rbac]
+        learning_goals:
+          - Install Tekton Triggers and its interceptors
+          - Give an event listener a ServiceAccount with the Triggers roles
+          - Start a PipelineRun from an HTTP request and check that it succeeds
+        resources:
+          - name: "Tekton Triggers"
+            url: https://tekton.dev/docs/triggers/
+          - name: "PipelineRuns"
+            url: https://tekton.dev/docs/pipelines/pipelineruns/
+      - type: reading
+        title: "Chains: Sign What Runs Produce"
+        path: sections/section-010/module-04/course-03-chains-sign-what-runs-produce.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-010/module-04/course-04-summary.md
+      - type: quiz
+        title: "Knowledge Check: Meet Triggers And Chains"
+        path: sections/section-010/module-04/quiz.yaml
+        pass_score: 70
+
+      - type: reading
         title: Question
         path: sections/section-010/capstone/labs/lab-01/question.md
       - type: lab
@@ -322,6 +362,46 @@ modules:
       - type: quiz
         title: "Knowledge Check: Operate The Tekton Installation"
         path: sections/section-020/module-02/quiz.yaml
+        pass_score: 70
+
+      - type: reading
+        title: "Install Tekton With The Operator"
+        path: sections/section-020/module-03/course.md
+      - type: reading
+        title: "Install The Operator"
+        path: sections/section-020/module-03/course-01-install-the-operator.md
+      - type: reading
+        title: "Create The TektonConfig"
+        path: sections/section-020/module-03/course-02-create-the-tektonconfig.md
+      - type: reading
+        title: "Change, Upgrade And Remove"
+        path: sections/section-020/module-03/course-03-change-upgrade-and-remove.md
+      - type: reading
+        title: Question
+        path: sections/section-020/module-03/labs/lab-01/question.md
+      - type: lab
+        title: "Install Tekton With The Operator Lab"
+        path: sections/section-020/module-03/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: installation
+        task_kind: build
+        tags: [release-manifest, config-defaults, crds, taskrun, rbac, webhook]
+        learning_goals:
+          - Install the Tekton Operator from its release manifest
+          - Create a TektonConfig with a profile and a pipeline default
+          - Prove that a new run gets the default timeout
+        resources:
+          - name: "Tekton Operator"
+            url: https://tekton.dev/docs/operator/
+          - name: "Tekton Pipelines installation"
+            url: https://tekton.dev/docs/pipelines/install/
+      - type: reading
+        title: "Summary"
+        path: sections/section-020/module-03/course-04-summary.md
+      - type: quiz
+        title: "Knowledge Check: Install Tekton With The Operator"
+        path: sections/section-020/module-03/quiz.yaml
         pass_score: 70
 
       - type: reading

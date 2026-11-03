@@ -53,6 +53,15 @@ This module follows the webhook, the controller and the events controller, and s
 4. Where To Look First, followed by the lab **Triage Four Failed Runs**
 5. Summary
 
+### 4. Meet Triggers And Chains
+
+A module on the sibling projects: Triggers starts runs from events, Chains signs what runs produce. Its playground has Tekton Pipelines installed.
+
+1. Triggers: From Event To Run
+2. Install And Use Triggers, followed by the lab **Wire A Trigger To A Pipeline**
+3. Chains: Sign What Runs Produce
+4. Summary
+
 ## Section capstone: Repair A Multi-Step Task
 
 The capstone is one graded scenario that combines the first module. The `inspect` Task of the `starfleet` team never worked: its TaskRun cannot find the Task, it asks for a ServiceAccount that does not exist, and two of its steps run in the wrong order. Find each fault from the TaskRun status and the pod, fix it, and prove the fix with a TaskRun that succeeds. Work it after the module lab.

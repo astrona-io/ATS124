@@ -1,0 +1,43 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: target-binding
+  namespace: starfleet
+spec:
+  params:
+    - name: target
+      value: $(body.target)
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: deliver-template
+  namespace: starfleet
+spec:
+  params:
+    - name: target
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: from-trigger-
+      spec:
+        pipelineRef:
+          name: deliver
+        params:
+          - name: target
+            value: $(tt.params.target)
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: deliver-listener
+  namespace: starfleet
+spec:
+  serviceAccountName: trigger-sa
+  triggers:
+    - name: on-request
+      bindings:
+        - ref: target-binding
+      template:
+        ref: deliver-template

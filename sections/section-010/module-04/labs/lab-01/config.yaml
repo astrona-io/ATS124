@@ -1,0 +1,56 @@
+# Wire A Trigger To A Pipeline
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-124-lab-010-04"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-tekton"
+      description: "Installs the tkn CLI 0.46.2 and Tekton Pipelines v1.17.1, and waits until the webhook answers"
+      type: "file"
+      source: "bootstrap/01-install-tekton.sh"
+    - name: "ats-124-lab-010-04-setup"
+      description: "Applies the Pipeline deliver; Triggers is not installed"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The namespace starfleet"
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "wait-for-tekton"
+      description: "Waits until every Tekton Deployment is ready"
+      type: "file"
+      source: "testing/wait-for-tekton.sh"
+    - name: "reference-solution"
+      description: "The fix a correct learner makes; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-triggers-installed"
+      description: "Confirms the Triggers controller, webhook and core interceptors are available"
+      type: "file"
+      source: "validation/validate-triggers-installed.sh"
+    - name: "validate-listener-objects"
+      description: "Confirms the account, binding, template and listener exist and fit together"
+      type: "file"
+      source: "validation/validate-listener-objects.sh"
+    - name: "validate-run-from-trigger"
+      description: "Confirms a from-trigger run of deliver with target orbit succeeded"
+      type: "file"
+      source: "validation/validate-run-from-trigger.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - busybox:1.37.0

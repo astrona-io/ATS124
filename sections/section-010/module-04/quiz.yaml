@@ -1,0 +1,245 @@
+# Knowledge check for module 010-04. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+id: ats124-010-04
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "Meet Triggers And Chains"
+placement:
+  position: after
+  reading: sections/section-010/module-04/course-04-summary.md
+questions:
+  - id: ats124-010-04-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the Triggers objects"
+    source_readings:
+      - sections/section-010/module-04/course-01-triggers-from-event-to-run.md
+    prompt: "Which object listens for HTTP requests in Tekton Triggers?"
+    options:
+      - id: a
+        text: "EventListener"
+        explanation: "Correct. The EventListener holds the list of triggers and gets a Deployment and a Service."
+      - id: b
+        text: "TriggerTemplate"
+        explanation: "Not correct. It builds the objects to create; it does not listen."
+      - id: c
+        text: "TriggerBinding"
+        explanation: "Not correct. It reads values from the request."
+      - id: d
+        text: "Interceptor"
+        explanation: "Not correct. It checks or changes a request."
+    correct_option: a
+    explanation: "Correct. The EventListener holds the list of triggers and gets a Deployment and a Service."
+
+  - id: ats124-010-04-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the Triggers objects"
+    source_readings:
+      - sections/section-010/module-04/course-01-triggers-from-event-to-run.md
+    prompt: "What does a TriggerBinding do?"
+    options:
+      - id: a
+        text: "Creates the PipelineRun."
+        explanation: "Not correct. The template creates objects."
+      - id: b
+        text: "Reads values from the request body and headers into parameters."
+        explanation: "Correct. The binding knows the shape of the request."
+      - id: c
+        text: "Starts the listener Deployment."
+        explanation: "Not correct. Triggers does that for the EventListener."
+      - id: d
+        text: "Signs the request."
+        explanation: "Not correct. Signing is not its job."
+    correct_option: b
+    explanation: "Correct. The binding knows the shape of the request."
+
+  - id: ats124-010-04-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the Triggers objects"
+    source_readings:
+      - sections/section-010/module-04/course-01-triggers-from-event-to-run.md
+    prompt: "What does a TriggerTemplate contain?"
+    options:
+      - id: a
+        text: "The list of allowed IP addresses."
+        explanation: "Not correct. It has no such list."
+      - id: b
+        text: "The signing key."
+        explanation: "Not correct. Keys are not in a template."
+      - id: c
+        text: "The objects to create, usually a PipelineRun, with parameters."
+        explanation: "Correct. The template knows the shape of the run."
+      - id: d
+        text: "The listener port."
+        explanation: "Not correct. The port belongs to the listener Service."
+    correct_option: c
+    explanation: "Correct. The template knows the shape of the run."
+
+  - id: ats124-010-04-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the event path"
+    source_readings:
+      - sections/section-010/module-04/course-01-triggers-from-event-to-run.md
+    prompt: "Which order describes a request on its way to a run?"
+    options:
+      - id: a
+        text: "Template, binding, listener, run."
+        explanation: "Not correct. The request reaches the listener first."
+      - id: b
+        text: "Binding, listener, interceptor, run."
+        explanation: "Not correct. The listener comes first."
+      - id: c
+        text: "Interceptor, run, binding, template."
+        explanation: "Not correct. The run is created last."
+      - id: d
+        text: "Listener, interceptor, binding, template, PipelineRun."
+        explanation: "Correct. An interceptor can stop the request before the binding is used."
+    correct_option: d
+    explanation: "Correct. An interceptor can stop the request before the binding is used."
+
+  - id: ats124-010-04-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Protect a listener"
+    source_readings:
+      - sections/section-010/module-04/course-01-triggers-from-event-to-run.md
+    prompt: "What protects a listener that is reachable from outside?"
+    options:
+      - id: a
+        text: "An interceptor that checks a shared secret or a signature."
+        explanation: "Correct. Give the ServiceAccount only the rights to create the template objects."
+      - id: b
+        text: "A longer name for the listener."
+        explanation: "Not correct. A name is not a control."
+      - id: c
+        text: "A larger TriggerTemplate."
+        explanation: "Not correct. The template does not authenticate."
+      - id: d
+        text: "Nothing; listeners check the sender."
+        explanation: "Not correct. Anyone who can reach the Service can start runs."
+    correct_option: a
+    explanation: "Correct. Give the ServiceAccount only the rights to create the template objects."
+
+  - id: ats124-010-04-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Install Triggers"
+    source_readings:
+      - sections/section-010/module-04/course-02-install-and-use-triggers.md
+    prompt: "Which two manifests install Triggers with its core interceptors?"
+    options:
+      - id: a
+        text: "Only release.yaml."
+        explanation: "Not correct. Triggers that use a core interceptor then fail."
+      - id: b
+        text: "release.yaml and interceptors.yaml of the Triggers release."
+        explanation: "Correct. Triggers needs Tekton Pipelines."
+      - id: c
+        text: "operator.yaml and chains.yaml."
+        explanation: "Not correct. Those are other projects."
+      - id: d
+        text: "A Helm chart named tekton."
+        explanation: "Not correct. The course installs from release manifests."
+    correct_option: b
+    explanation: "Correct. Triggers needs Tekton Pipelines."
+
+  - id: ats124-010-04-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the listener Service"
+    source_readings:
+      - sections/section-010/module-04/course-02-install-and-use-triggers.md
+    prompt: "A listener is named deliver-listener. What is the name of its Service?"
+    options:
+      - id: a
+        text: "deliver-listener"
+        explanation: "Not correct. The Service has the el- prefix."
+      - id: b
+        text: "trigger-deliver-listener"
+        explanation: "Not correct. There is no such prefix."
+      - id: c
+        text: "el-deliver-listener"
+        explanation: "Correct. Forward port 8080 of that Service to send a test request."
+      - id: d
+        text: "tekton-el"
+        explanation: "Not correct. Names follow the listener name."
+    correct_option: c
+    explanation: "Correct. Forward port 8080 of that Service to send a test request."
+
+  - id: ats124-010-04-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Create runs with generateName"
+    source_readings:
+      - sections/section-010/module-04/course-02-install-and-use-triggers.md
+    prompt: "Why does the PipelineRun in a TriggerTemplate use generateName?"
+    options:
+      - id: a
+        text: "Because name is not allowed in a PipelineRun."
+        explanation: "Not correct. name is allowed."
+      - id: b
+        text: "To make the run start faster."
+        explanation: "Not correct. It does not change speed."
+      - id: c
+        text: "Because the listener renames runs."
+        explanation: "Not correct. The template sets the name."
+      - id: d
+        text: "Every event must create a run with a new name."
+        explanation: "Correct. With a fixed name, the second event would fail."
+    correct_option: d
+    explanation: "Correct. With a fixed name, the second event would fail."
+
+  - id: ats124-010-04-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Say what Chains does"
+    source_readings:
+      - sections/section-010/module-04/course-03-chains-sign-what-runs-produce.md
+    prompt: "What does Tekton Chains do?"
+    options:
+      - id: a
+        text: "Signs a record of finished runs."
+        explanation: "Correct. Chains marks a signed run with the annotation chains.tekton.dev/signed."
+      - id: b
+        text: "Starts runs from webhooks."
+        explanation: "Not correct. That is Triggers."
+      - id: c
+        text: "Installs Tekton components."
+        explanation: "Not correct. That is the Operator."
+      - id: d
+        text: "Prunes old runs."
+        explanation: "Not correct. That is the Pruner."
+    correct_option: a
+    explanation: "Correct. Chains marks a signed run with the annotation chains.tekton.dev/signed."
+
+  - id: ats124-010-04-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Protect the signing key"
+    source_readings:
+      - sections/section-010/module-04/course-03-chains-sign-what-runs-produce.md
+    prompt: "Where does Chains read its signing key from, in the course example?"
+    options:
+      - id: a
+        text: "A ConfigMap named chains-config."
+        explanation: "Not correct. That ConfigMap holds settings, not keys."
+      - id: b
+        text: "A Secret named signing-secrets in the namespace tekton-chains."
+        explanation: "Correct. Keep a copy of the private key; old signatures cannot be re-created."
+      - id: c
+        text: "The TaskRun spec."
+        explanation: "Not correct. The key is never in a run."
+      - id: d
+        text: "An annotation on the Task."
+        explanation: "Not correct. Annotations are not secret."
+    correct_option: b
+    explanation: "Correct. Keep a copy of the private key; old signatures cannot be re-created."

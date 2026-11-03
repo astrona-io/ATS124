@@ -1,0 +1,52 @@
+# Install Tekton With The Operator
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-124-lab-020-03"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-tkn"
+      description: "Installs the tkn CLI 0.46.2; Tekton Pipelines is not installed"
+      type: "file"
+      source: "bootstrap/01-install-tekton.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The namespace starfleet"
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "reference-solution"
+      description: "The steps a correct learner takes; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+    - name: "wait-for-tekton"
+      description: "Waits until every Tekton Deployment is ready"
+      type: "file"
+      source: "testing/wait-for-tekton.sh"
+validation:
+  scripts:
+    - name: "validate-operator-running"
+      description: "Confirms the Operator Deployments are available"
+      type: "file"
+      source: "validation/validate-operator-running.sh"
+    - name: "validate-tektonconfig"
+      description: "Confirms the TektonConfig is ready with profile lite, target namespace and a 30 minute default"
+      type: "file"
+      source: "validation/validate-tektonconfig.sh"
+    - name: "validate-new-run-timeout"
+      description: "Creates a TaskRun and checks it succeeds with a 30 minute timeout"
+      type: "file"
+      source: "validation/validate-new-run-timeout.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - busybox:1.37.0

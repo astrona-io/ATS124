@@ -1,0 +1,9 @@
+apiVersion: operator.tekton.dev/v1alpha1
+kind: TektonConfig
+metadata:
+  name: config
+spec:
+  profile: lite
+  targetNamespace: tekton-pipelines
+  pipeline:
+    default-timeout-minutes: 30

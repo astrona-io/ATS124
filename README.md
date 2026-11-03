@@ -31,8 +31,8 @@ contains:
 
 | Section | Title | Modules | Labs | Topic |
 | --- | --- | --- | --- | --- |
-| [010](sections/section-010) | Tekton Architecture And The Execution Model | 3 | 3 + capstone | Execution model |
-| [020](sections/section-020) | Install Tekton Pipelines And The Dashboard | 2 | 2 + capstone | Installation |
+| [010](sections/section-010) | Tekton Architecture And The Execution Model | 4 | 4 + capstone | Execution model |
+| [020](sections/section-020) | Install Tekton Pipelines And The Dashboard | 3 | 3 + capstone | Installation |
 | [030](sections/section-030) | Run And Inspect Work With The tkn CLI | 2 | 2 + capstone | tkn CLI |
 
 The order goes from model to installation to daily use. Section 010 starts
@@ -52,9 +52,11 @@ command-line tool, used against a complete installation.
 | 020-01 | [Install And Configure Tekton](sections/section-020/module-01/course.md) | 4 | [lab-01](sections/section-020/module-01/labs/lab-01) |
 | 030-01 | [Run And Inspect Work With tkn](sections/section-030/module-01/course.md) | 4 | [lab-01](sections/section-030/module-01/labs/lab-01) |
 | 010-02 | [See How A Pipeline Becomes TaskRuns](sections/section-010/module-02/course.md) | 4 | [lab-01](sections/section-010/module-02/labs/lab-01) |
-| 010-03 | [Follow The Tekton Controllers](sections/section-010/module-03/course.md) | 4 | [lab-01](sections/section-010/module-03/labs/lab-01) |
+| 010-03 | [Follow The Tekton Controllers](sections/section-010/module-03/course.md) | 3 | [lab-01](sections/section-010/module-03/labs/lab-01) |
 | 020-02 | [Operate The Tekton Installation](sections/section-020/module-02/course.md) | 4 | [lab-01](sections/section-020/module-02/labs/lab-01) |
 | 030-02 | [Run Pipelines With tkn](sections/section-030/module-02/course.md) | 4 | [lab-01](sections/section-030/module-02/labs/lab-01) |
+| 010-04 | [Meet Triggers And Chains](sections/section-010/module-04/course.md) | 3 | [lab-01](sections/section-010/module-04/labs/lab-01) |
+| 020-03 | [Install Tekton With The Operator](sections/section-020/module-03/course.md) | 3 | [lab-01](sections/section-020/module-03/labs/lab-01) |
 
 | Lab | Title | Kind | Faults or work |
 | --- | --- | --- | --- |
@@ -65,6 +67,8 @@ command-line tool, used against a complete installation.
 | 010-03 | Triage Four Failed Runs | troubleshooting | four failed TaskRuns with four different causes |
 | 020-02 | Set Defaults For The Installation | build | `config-defaults` without a pod template and managed-by label |
 | 030-02 | Operate Pipelines With tkn | build | start a run, cancel a hung run, keep the newest three runs |
+| 010-04 | Wire A Trigger To A Pipeline | build | install Triggers, a listener account, a binding, a template and a listener |
+| 020-03 | Install Tekton With The Operator | build | install the Operator, a `TektonConfig` with a 30 minute default |
 
 ---
 
