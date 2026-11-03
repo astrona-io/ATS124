@@ -1,0 +1,245 @@
+# Knowledge check for section 030. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats124-03
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-030
+  title: "Run And Inspect Work With The tkn CLI"
+placement:
+  position: after
+  reading: sections/section-030/capstone/labs/lab-01/question.md
+questions:
+  - id: ats124-030-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know how tkn finds the cluster"
+    source_readings:
+      - sections/section-030/module-01/course-01-set-up-tkn-and-contexts.md
+    prompt: "Where does `tkn` read the cluster and the user it connects with?"
+    options:
+      - id: a
+        text: "From its own file `~/.tkn/config`."
+        explanation: "Not correct. `tkn` keeps no list of clusters of its own."
+      - id: b
+        text: "From the Tekton controller."
+        explanation: "Not correct. `tkn` is only a client of the Kubernetes API server."
+      - id: c
+        text: "From the ConfigMap `pipelines-info`."
+        explanation: "Not correct. That ConfigMap only holds the Pipelines version."
+      - id: d
+        text: "From the kubeconfig file, the same file `kubectl` uses."
+        explanation: "Correct. That is the file in `KUBECONFIG`, or `~/.kube/config`."
+    correct_option: d
+    explanation: "Correct. That is the file in `KUBECONFIG`, or `~/.kube/config`."
+
+  - id: ats124-030-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Create a context with a default namespace"
+    source_readings:
+      - sections/section-030/module-01/course-01-set-up-tkn-and-contexts.md
+    prompt: "How do you create a context that uses `starfleet` as its default namespace?"
+    options:
+      - id: a
+        text: "With `tkn context create starfleet`."
+        explanation: "Not correct. There is no `tkn context` command."
+      - id: b
+        text: "With `kubectl config set-context starfleet --namespace=starfleet` and the cluster and user."
+        explanation: "Correct. `tkn` has no commands for contexts. It follows the kubeconfig."
+      - id: c
+        text: "With `tkn config set-namespace starfleet`."
+        explanation: "Not correct. `tkn` does not store settings like this."
+      - id: d
+        text: "With `kubectl create namespace starfleet`."
+        explanation: "Not correct. That creates a namespace, not a context."
+    correct_option: b
+    explanation: "Correct. `tkn` has no commands for contexts. It follows the kubeconfig."
+
+  - id: ats124-030-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the output of tkn version"
+    source_readings:
+      - sections/section-030/module-01/course-01-set-up-tkn-and-contexts.md
+    prompt: "`tkn version` prints only the client version. What does that tell you?"
+    options:
+      - id: a
+        text: "The cluster may be unreachable, or Tekton may not be installed. The client line alone does not prove a connection."
+        explanation: "Correct. Look for the Pipeline version line."
+      - id: b
+        text: "Tekton Pipelines runs correctly."
+        explanation: "Not correct. The client version prints even without a cluster."
+      - id: c
+        text: "The kubeconfig file is empty."
+        explanation: "Not correct. An empty kubeconfig is not the only possible reason."
+      - id: d
+        text: "The cluster is older than Kubernetes 1.28."
+        explanation: "Not correct. `tkn` does not report the Kubernetes version."
+    correct_option: a
+    explanation: "Correct. Look for the Pipeline version line."
+
+  - id: ats124-030-q04
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know the default namespace"
+    source_readings:
+      - sections/section-030/module-01/course-01-set-up-tkn-and-contexts.md
+    prompt: "You run `tkn taskrun list` with no `-n` flag and a context with no namespace. Which namespace does `tkn` use?"
+    options:
+      - id: a
+        text: "`tekton-pipelines`."
+        explanation: "Not correct. `tkn` does not pick the Tekton namespace for you."
+      - id: b
+        text: "`starfleet`."
+        explanation: "Not correct. `tkn` only uses it when a context or `-n` names it."
+      - id: c
+        text: "`default`."
+        explanation: "Correct. Your Tasks are probably not there, so use `-n` or a context with a namespace."
+      - id: d
+        text: "All namespaces."
+        explanation: "Not correct. `tkn` lists one namespace unless a flag says otherwise."
+    correct_option: c
+    explanation: "Correct. Your Tasks are probably not there, so use `-n` or a context with a namespace."
+
+  - id: ats124-030-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Follow the logs of a started Task"
+    source_readings:
+      - sections/section-030/module-01/course-02-start-tasks-with-tkn.md
+    prompt: "What does `--showlog` do in `tkn task start hello -p crew=bridge --showlog`?"
+    options:
+      - id: a
+        text: "It follows the logs of all steps until the run ends."
+        explanation: "Correct. Without it, `tkn` prints the TaskRun name and returns at once."
+      - id: b
+        text: "It prints the TaskRun as YAML and does not run it."
+        explanation: "Not correct. That is `--dry-run` with `--output yaml`."
+      - id: c
+        text: "It keeps the pod after the run ends."
+        explanation: "Not correct. The flag only changes what `tkn` prints."
+      - id: d
+        text: "It shows only the log of the last step."
+        explanation: "Not correct. It shows all steps, with the step name before each line."
+    correct_option: a
+    explanation: "Correct. Without it, `tkn` prints the TaskRun name and returns at once."
+
+  - id: ats124-030-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Preview a TaskRun"
+    source_readings:
+      - sections/section-030/module-01/course-02-start-tasks-with-tkn.md
+    prompt: "What does `tkn task start hello -p crew=scout --dry-run --output yaml` do?"
+    options:
+      - id: a
+        text: "It runs the Task and prints its result as YAML."
+        explanation: "Not correct. `--dry-run` runs nothing."
+      - id: b
+        text: "It creates the Task `hello` in the namespace."
+        explanation: "Not correct. The command starts a Task. It never creates one."
+      - id: c
+        text: "It prints a complete TaskRun with `generateName: hello-run-` and does not create it."
+        explanation: "Correct. You can save it in Git or apply it later with `kubectl create -f`."
+      - id: d
+        text: "It checks the Task and prints the Task YAML."
+        explanation: "Not correct. It prints a TaskRun, not a Task."
+    correct_option: c
+    explanation: "Correct. You can save it in Git or apply it later with `kubectl create -f`."
+
+  - id: ats124-030-q07
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Start a Task again"
+    source_readings:
+      - sections/section-030/module-01/course-02-start-tasks-with-tkn.md
+    prompt: "Which flag starts a Task again with the values of its most recent TaskRun?"
+    options:
+      - id: a
+        text: "`--use-param-defaults`."
+        explanation: "Not correct. That takes the defaults of the Task, not the values of an old run."
+      - id: b
+        text: "`--last`."
+        explanation: "Correct. `--use-taskrun` does the same with a TaskRun you name."
+      - id: c
+        text: "`--prefix-name`."
+        explanation: "Not correct. That only changes the start of the generated name."
+      - id: d
+        text: "`--dry-run`."
+        explanation: "Not correct. That prints the TaskRun without creating it."
+    correct_option: b
+    explanation: "Correct. `--use-taskrun` does the same with a TaskRun you name."
+
+  - id: ats124-030-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Start a Task in a script"
+    source_readings:
+      - sections/section-030/module-01/course-02-start-tasks-with-tkn.md
+    prompt: "A script runs `tkn task start hello` without `-p`, and `crew` has no default. What happens when no one is at the terminal?"
+    options:
+      - id: a
+        text: "`tkn` uses an empty string for `crew`."
+        explanation: "Not correct. `tkn` does not invent a value."
+      - id: b
+        text: "`tkn` copies the value from the first TaskRun it finds."
+        explanation: "Not correct. Only `--last` or `--use-taskrun` copy old values."
+      - id: c
+        text: "`tkn` creates the TaskRun, and the controller fills in the value."
+        explanation: "Not correct. No component fills in a missing value."
+      - id: d
+        text: "`tkn` asks for the value interactively, so it hangs or fails. Pass every parameter without a default with `-p`."
+        explanation: "Correct. `--use-param-defaults` only helps for parameters that have a default."
+    correct_option: d
+    explanation: "Correct. `--use-param-defaults` only helps for parameters that have a default."
+
+  - id: ats124-030-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Clean up TaskRuns"
+    source_readings:
+      - sections/section-030/module-01/course-03-inspect-and-clean-up-taskruns.md
+    prompt: "Which command deletes all TaskRuns of the Task `hello` except the 2 newest, and keeps the Task?"
+    options:
+      - id: a
+        text: "`tkn task delete hello --keep 2`."
+        explanation: "Not correct. That deletes Tasks, not TaskRuns."
+      - id: b
+        text: "`tkn taskrun delete --all`."
+        explanation: "Not correct. `--all` deletes every TaskRun in the namespace."
+      - id: c
+        text: "`tkn taskrun delete --task hello --keep 2`."
+        explanation: "Correct. Add `-f` in a script to skip the confirmation."
+      - id: d
+        text: "`tkn taskrun delete --task hello`."
+        explanation: "Not correct. That deletes all runs of `hello`, with no `--keep`."
+    correct_option: c
+    explanation: "Correct. Add `-f` in a script to skip the confirmation."
+
+  - id: ats124-030-q10
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know what happens to logs"
+    source_readings:
+      - sections/section-030/module-01/course-03-inspect-and-clean-up-taskruns.md
+    prompt: "You delete a TaskRun with `tkn taskrun delete`. What happens to its logs?"
+    options:
+      - id: a
+        text: "They are gone, because the pod of the TaskRun is deleted with it."
+        explanation: "Correct. `tkn` reads the same pod logs as `kubectl logs`."
+      - id: b
+        text: "They stay in the Task."
+        explanation: "Not correct. A Task does not store logs."
+      - id: c
+        text: "They stay in the namespace as events."
+        explanation: "Not correct. Events do not hold step logs."
+      - id: d
+        text: "They stay available through `tkn taskrun logs --last`."
+        explanation: "Not correct. That command also reads the pod, which no longer exists."
+    correct_option: a
+    explanation: "Correct. `tkn` reads the same pod logs as `kubectl logs`."

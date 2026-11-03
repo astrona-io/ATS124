@@ -129,6 +129,10 @@ modules:
             url: https://tekton.dev/docs/pipelines/tasks/
           - name: "Authentication at run time"
             url: https://tekton.dev/docs/pipelines/auth/
+      - type: quiz
+        title: "Knowledge Check: Tekton Architecture And The Execution Model"
+        path: sections/section-010/quiz.yaml
+        pass_score: 70
 
   - id: module-020
     title: "Install Tekton Pipelines And The Dashboard"
@@ -203,6 +207,10 @@ modules:
             url: https://tekton.dev/docs/dashboard/install/
           - name: "Tekton overview"
             url: https://tekton.dev/docs/concepts/overview/
+      - type: quiz
+        title: "Knowledge Check: Install Tekton Pipelines And The Dashboard"
+        path: sections/section-020/quiz.yaml
+        pass_score: 70
 
   - id: module-030
     title: "Run And Inspect Work With The tkn CLI"
@@ -274,3 +282,11 @@ modules:
             url: https://tekton.dev/docs/pipelines/taskruns/
           - name: "Tasks"
             url: https://tekton.dev/docs/pipelines/tasks/
+      - type: quiz
+        title: "Knowledge Check: Run And Inspect Work With The tkn CLI"
+        path: sections/section-030/quiz.yaml
+        pass_score: 70
+      - type: quiz
+        title: "Final Domain Quiz"
+        path: sections/final-domain-quiz.yaml
+        pass_score: 70

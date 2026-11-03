@@ -1,0 +1,245 @@
+# Knowledge check for section 010. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats124-01
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "Tekton Architecture And The Execution Model"
+placement:
+  position: after
+  reading: sections/section-010/capstone/labs/lab-01/question.md
+questions:
+  - id: ats124-010-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Tell the Tekton custom resources apart"
+    source_readings:
+      - sections/section-010/module-01/course-01-what-tekton-is-and-its-ecosystem.md
+    prompt: "Which Tekton kind is one execution of a Task, with its own pod and status?"
+    options:
+      - id: a
+        text: "TaskRun."
+        explanation: "Correct. A TaskRun is one run of a Task. Tekton creates one pod for it."
+      - id: b
+        text: "Pipeline."
+        explanation: "Not correct. A Pipeline is an ordered graph of Tasks, not one run."
+      - id: c
+        text: "StepAction."
+        explanation: "Not correct. A StepAction is one reusable step stored as its own object."
+      - id: d
+        text: "ResolutionRequest."
+        explanation: "Not correct. A ResolutionRequest is an internal request to fetch a Task or Pipeline from a remote place."
+    correct_option: a
+    explanation: "Correct. A TaskRun is one run of a Task. Tekton creates one pod for it."
+
+  - id: ats124-010-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain what each Tekton component does"
+    source_readings:
+      - sections/section-010/module-01/course-01-what-tekton-is-and-its-ecosystem.md
+    prompt: "What does the Deployment `tekton-pipelines-webhook` do?"
+    options:
+      - id: a
+        text: "It creates the pod of every TaskRun."
+        explanation: "Not correct. The tekton-pipelines-controller creates the pods."
+      - id: b
+        text: "It sends CloudEvents about finished runs."
+        explanation: "Not correct. The tekton-events-controller sends CloudEvents."
+      - id: c
+        text: "It is an admission webhook that sets default values on Tekton objects and rejects invalid ones."
+        explanation: "Correct. The API server calls the webhook for every Tekton object that is created or changed."
+      - id: d
+        text: "It fetches Tasks from Git and OCI bundles."
+        explanation: "Not correct. The remote resolvers fetch remote Tasks and Pipelines."
+    correct_option: c
+    explanation: "Correct. The API server calls the webhook for every Tekton object that is created or changed."
+
+  - id: ats124-010-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the projects of the Tekton ecosystem"
+    source_readings:
+      - sections/section-010/module-01/course-01-what-tekton-is-and-its-ecosystem.md
+    prompt: "Which Tekton project signs the results of finished runs and records provenance?"
+    options:
+      - id: a
+        text: "Tekton Triggers."
+        explanation: "Not correct. Triggers starts runs from events such as a Git webhook."
+      - id: b
+        text: "Tekton Dashboard."
+        explanation: "Not correct. The Dashboard is a web interface for Tekton objects."
+      - id: c
+        text: "Tekton Pruner."
+        explanation: "Not correct. The Pruner deletes finished runs by rules you set."
+      - id: d
+        text: "Tekton Chains."
+        explanation: "Correct. Chains watches finished runs, signs their results and records where an artifact came from."
+    correct_option: d
+    explanation: "Correct. Chains watches finished runs, signs their results and records where an artifact came from."
+
+  - id: ats124-010-q04
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe the pod of a TaskRun"
+    source_readings:
+      - sections/section-010/module-01/course-02-one-pod-per-taskrun.md
+    prompt: "A Task has three steps. How many pods and step containers does Tekton create for one TaskRun of it?"
+    options:
+      - id: a
+        text: "Three pods, one for each step."
+        explanation: "Not correct. Tekton creates one pod per TaskRun, not one per step."
+      - id: b
+        text: "One pod, with one step container per step."
+        explanation: "Correct. The pod also has init containers such as `prepare` and `place-scripts`."
+      - id: c
+        text: "One pod with one container that runs all three steps."
+        explanation: "Not correct. Each step gets its own container with its own image."
+      - id: d
+        text: "One pod for the Task and one pod for each step."
+        explanation: "Not correct. A Task does not get a pod. Only a TaskRun does."
+    correct_option: b
+    explanation: "Correct. The pod also has init containers such as `prepare` and `place-scripts`."
+
+  - id: ats124-010-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain how steps run in order"
+    source_readings:
+      - sections/section-010/module-01/course-02-one-pod-per-taskrun.md
+    prompt: "Kubernetes starts all containers of a pod at the same time. What makes the steps run one after the other?"
+    options:
+      - id: a
+        text: "Kubernetes starts the containers in the order of the `steps` list."
+        explanation: "Not correct. Kubernetes starts them together. It does not order them."
+      - id: b
+        text: "The controller starts each container through the API when the last one ends."
+        explanation: "Not correct. The containers already exist. The entrypoint binary controls when each command runs."
+      - id: c
+        text: "The entrypoint binary in each step waits for a marker file that the step before it writes."
+        explanation: "Correct. The first step waits for the Downward API file `/tekton/downward/ready`."
+      - id: d
+        text: "Each init container runs one step."
+        explanation: "Not correct. The init containers only prepare the entrypoint binary and the scripts."
+    correct_option: c
+    explanation: "Correct. The first step waits for the Downward API file `/tekton/downward/ready`."
+
+  - id: ats124-010-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know what steps share"
+    source_readings:
+      - sections/section-010/module-01/course-02-one-pod-per-taskrun.md
+    prompt: "One step writes a file to `/tmp`, and the next step cannot find it. What is the correct fix?"
+    options:
+      - id: a
+        text: "Write the file to `/workspace`, which every step mounts."
+        explanation: "Correct. `/workspace` is an `emptyDir` volume shared by all step containers."
+      - id: b
+        text: "Use the same image in both steps."
+        explanation: "Not correct. Two containers from one image still have separate file systems."
+      - id: c
+        text: "Add `onError: continue` to the first step."
+        explanation: "Not correct. That only lets the run go on after a failure. It does not share files."
+      - id: d
+        text: "Write the file to `/tekton/bin`."
+        explanation: "Not correct. `/tekton/bin` is internal to Tekton and holds the entrypoint binary."
+    correct_option: a
+    explanation: "Correct. `/workspace` is an `emptyDir` volume shared by all step containers."
+
+  - id: ats124-010-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the results of a TaskRun"
+    source_readings:
+      - sections/section-010/module-01/course-03-params-results-and-status.md
+    prompt: "Where does a value in `status.results` of a TaskRun come from?"
+    options:
+      - id: a
+        text: "From the log of the step container."
+        explanation: "Not correct. The log and the result are separate."
+      - id: b
+        text: "From the exit code of the step."
+        explanation: "Not correct. The exit code only decides whether the step failed."
+      - id: c
+        text: "From a ConfigMap that the controller creates."
+        explanation: "Not correct. Tekton keeps results in the TaskRun status, not in a ConfigMap."
+      - id: d
+        text: "From the file `$(results.<name>.path)`, which the step wrote and the controller read from the termination message."
+        explanation: "Correct. All results of one pod must fit into 4096 bytes."
+    correct_option: d
+    explanation: "Correct. All results of one pod must fit into 4096 bytes."
+
+  - id: ats124-010-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Diagnose a TaskRun that failed before its pod existed"
+    source_readings:
+      - sections/section-010/module-01/course-03-params-results-and-status.md
+    prompt: "A TaskRun does not pass the required parameter `crew`. Its `Succeeded` condition is `False` and `kubectl get pods` shows no pod for it. Why?"
+    options:
+      - id: a
+        text: "The step failed with exit code 1 and Tekton deleted the pod."
+        explanation: "Not correct. A failed step keeps its pod and its logs."
+      - id: b
+        text: "The controller compared the TaskRun with the Task and failed the run before it created a pod."
+        explanation: "Correct. The condition message names the missing parameter."
+      - id: c
+        text: "The step image could not be pulled."
+        explanation: "Not correct. An image pull failure needs a pod to exist first."
+      - id: d
+        text: "The scheduler could not place the pod."
+        explanation: "Not correct. That would leave a pod in `Pending`, not no pod."
+    correct_option: b
+    explanation: "Correct. The condition message names the missing parameter."
+
+  - id: ats124-010-q09
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read the Succeeded condition"
+    source_readings:
+      - sections/section-010/module-01/course-03-params-results-and-status.md
+    prompt: "A step in a TaskRun ends with a non-zero exit code. Which `reason` does the `Succeeded` condition show?"
+    options:
+      - id: a
+        text: "`TaskRunTimeout`, with status `False`."
+        explanation: "Not correct. That reason means the run took longer than `spec.timeout`."
+      - id: b
+        text: "`TaskRunValidationFailed`, with status `False`."
+        explanation: "Not correct. That reason means the run was invalid before any pod existed."
+      - id: c
+        text: "`StepFailed`, with status `False`."
+        explanation: "Correct. `status.steps` shows the step and its exit code."
+      - id: d
+        text: "`Running`, with status `Unknown`."
+        explanation: "Not correct. `Unknown` is only for a run that is still going."
+    correct_option: c
+    explanation: "Correct. `status.steps` shows the step and its exit code."
+
+  - id: ats124-010-q10
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Rerun a failed TaskRun"
+    source_readings:
+      - sections/section-010/module-01/course-03-params-results-and-status.md
+    prompt: "You fixed the problem of a failed TaskRun. How do you run it again?"
+    options:
+      - id: a
+        text: "Edit the `spec` of the failed TaskRun with `kubectl edit`."
+        explanation: "Not correct. The webhook rejects changes to the spec of a TaskRun that has started."
+      - id: b
+        text: "Patch the `status` of the TaskRun back to `Unknown`."
+        explanation: "Not correct. Only the controller writes the status."
+      - id: c
+        text: "Apply the fixed Task, and every old TaskRun runs again."
+        explanation: "Not correct. A changed Task only affects TaskRuns created after the change."
+      - id: d
+        text: "Create a new TaskRun, or delete the old one and create it again."
+        explanation: "Correct. The `spec` of a started TaskRun is the record of what ran, so Tekton does not allow changes."
+    correct_option: d
+    explanation: "Correct. The `spec` of a started TaskRun is the record of what ran, so Tekton does not allow changes."

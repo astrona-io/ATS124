@@ -1,0 +1,245 @@
+# Knowledge check for section 020. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats124-02
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "Install Tekton Pipelines And The Dashboard"
+placement:
+  position: after
+  reading: sections/section-020/capstone/labs/lab-01/question.md
+questions:
+  - id: ats124-020-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Install from the release manifest"
+    source_readings:
+      - sections/section-020/module-01/course-01-install-tekton-pipelines.md
+    prompt: "Why does the course apply `previous/v1.17.1/release.yaml` and not the `latest` address?"
+    options:
+      - id: a
+        text: "The `latest` address does not exist."
+        explanation: "Not correct. It exists, but it always points at the newest release."
+      - id: b
+        text: "The `latest` address changes with every release, so the result changes over time."
+        explanation: "Correct. Pinning the version keeps the installation the same as the one you tested."
+      - id: c
+        text: "The pinned file installs more components."
+        explanation: "Not correct. Both files install the same kinds of components."
+      - id: d
+        text: "The `latest` file only installs the CRDs."
+        explanation: "Not correct. It installs the whole release, like a pinned file."
+    correct_option: b
+    explanation: "Correct. Pinning the version keeps the installation the same as the one you tested."
+
+  - id: ats124-020-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Handle the webhook after an installation"
+    source_readings:
+      - sections/section-020/module-01/course-01-install-tekton-pipelines.md
+    prompt: "Right after the installation, `kubectl apply` refuses a Task with an error that mentions the webhook. What is the likely cause and fix?"
+    options:
+      - id: a
+        text: "The CRDs are missing. Delete the release and install it again."
+        explanation: "Not correct. The error names the webhook, not a missing kind."
+      - id: b
+        text: "The ServiceAccount `default` is missing in the namespace."
+        explanation: "Not correct. That affects the pod of a run, not the admission of a Task."
+      - id: c
+        text: "The namespace needs the label `tekton.dev/enabled`."
+        explanation: "Not correct. Tekton does not need such a label on your namespace."
+      - id: d
+        text: "The webhook pod is not ready yet. Wait for the rollout and apply again."
+        explanation: "Correct. The API server must reach the webhook to admit every Tekton object."
+    correct_option: d
+    explanation: "Correct. The API server must reach the webhook to admit every Tekton object."
+
+  - id: ats124-020-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Verify an installation"
+    source_readings:
+      - sections/section-020/module-01/course-01-install-tekton-pipelines.md
+    prompt: "Which check proves that an installation of Tekton Pipelines works?"
+    options:
+      - id: a
+        text: "A TaskRun that runs and succeeds."
+        explanation: "Correct. The webhook, the controller and the step all take part in it."
+      - id: b
+        text: "All Tekton pods show `Running`."
+        explanation: "Not correct. Running pods do not prove that a TaskRun works."
+      - id: c
+        text: "`tkn version` prints the client version."
+        explanation: "Not correct. The client version prints even when the cluster is unreachable."
+      - id: d
+        text: "`kubectl version` shows Kubernetes 1.34 or later."
+        explanation: "Not correct. That only checks the cluster version."
+    correct_option: a
+    explanation: "Correct. The webhook, the controller and the step all take part in it."
+
+  - id: ats124-020-q04
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know the built-in defaults"
+    source_readings:
+      - sections/section-020/module-01/course-02-config-defaults-and-feature-flags.md
+    prompt: "A TaskRun sets no `timeout` and no `serviceAccountName`. Which values does it get with the built-in defaults?"
+    options:
+      - id: a
+        text: "A timeout of 10 minutes and the ServiceAccount `tekton`."
+        explanation: "Not correct. The built-in timeout is 60 minutes and the ServiceAccount is `default`."
+      - id: b
+        text: "No timeout and the ServiceAccount `default`."
+        explanation: "Not correct. A run without a timeout would hang forever. The built-in value is 60 minutes."
+      - id: c
+        text: "A timeout of 1h0m0s and the ServiceAccount `default`."
+        explanation: "Correct. These come from `config-defaults`, or from built-in values when the ConfigMap does not set them."
+      - id: d
+        text: "A timeout of 1h0m0s and the ServiceAccount `pipeline`."
+        explanation: "Not correct. The built-in ServiceAccount is `default`."
+    correct_option: c
+    explanation: "Correct. These come from `config-defaults`, or from built-in values when the ConfigMap does not set them."
+
+  - id: ats124-020-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Change a default"
+    source_readings:
+      - sections/section-020/module-01/course-02-config-defaults-and-feature-flags.md
+    prompt: "You patch `default-timeout-minutes` to `20` in `config-defaults`. What happens to a TaskRun that was created before the change?"
+    options:
+      - id: a
+        text: "It keeps `1h0m0s`, because the webhook writes defaults into a TaskRun once, when it is created."
+        explanation: "Correct. Only TaskRuns created after the change get `20m0s`."
+      - id: b
+        text: "Its timeout changes to `20m0s` the next time the controller reads it."
+        explanation: "Not correct. The default is written into the spec once. It does not update."
+      - id: c
+        text: "Tekton cancels it and starts it again."
+        explanation: "Not correct. Tekton never restarts a run for a changed default."
+      - id: d
+        text: "It fails, because its timeout no longer matches the ConfigMap."
+        explanation: "Not correct. Tekton does not compare old runs with the ConfigMap."
+    correct_option: a
+    explanation: "Correct. Only TaskRuns created after the change get `20m0s`."
+
+  - id: ats124-020-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Avoid a broken default ServiceAccount"
+    source_readings:
+      - sections/section-020/module-01/course-02-config-defaults-and-feature-flags.md
+    prompt: "`default-service-account` names a ServiceAccount that does not exist in the namespace `starfleet`. What happens to a TaskRun there that sets no `serviceAccountName`?"
+    options:
+      - id: a
+        text: "Tekton creates the ServiceAccount."
+        explanation: "Not correct. The setting never creates anything."
+      - id: b
+        text: "Tekton falls back to the ServiceAccount `default`."
+        explanation: "Not correct. There is no fallback to another account."
+      - id: c
+        text: "It runs, but without any permissions."
+        explanation: "Not correct. The pod cannot be created at all."
+      - id: d
+        text: "It fails, because the controller cannot create a pod for a missing ServiceAccount."
+        explanation: "Correct. The default only names an account. It does not create one."
+    correct_option: d
+    explanation: "Correct. The default only names an account. It does not create one."
+
+  - id: ats124-020-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Compare the Dashboard releases"
+    source_readings:
+      - sections/section-020/module-01/course-03-install-the-dashboard.md
+    prompt: "Which Dashboard manifest creates the ClusterRoleBindings with `edit` in their names, such as `tekton-dashboard-backend-edit`?"
+    options:
+      - id: a
+        text: "`release.yaml`, the read-only release."
+        explanation: "Not correct. The read-only release only binds ClusterRoles that allow reading."
+      - id: b
+        text: "Both releases create them."
+        explanation: "Not correct. Only the read/write release does."
+      - id: c
+        text: "`release-full.yaml`, the read/write release."
+        explanation: "Correct. It lets the Dashboard create, rerun, cancel and delete runs in every namespace."
+      - id: d
+        text: "None. The Dashboard uses the credentials of each user."
+        explanation: "Not correct. The Dashboard has no login. It uses its own ServiceAccount."
+    correct_option: c
+    explanation: "Correct. It lets the Dashboard create, rerun, cancel and delete runs in every namespace."
+
+  - id: ats124-020-q08
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Check the mode of a Dashboard"
+    source_readings:
+      - sections/section-020/module-01/course-03-install-the-dashboard.md
+    prompt: "Which request shows whether a Dashboard runs in read-only mode, with the port-forward running?"
+    options:
+      - id: a
+        text: "`curl -s http://localhost:9097/v1/mode`."
+        explanation: "Not correct. The Dashboard has no such path. The path is `/v1/properties`."
+      - id: b
+        text: "`curl -s http://localhost:9097/v1/properties` and read `isReadOnly`."
+        explanation: "Correct. The answer also holds `dashboardVersion` and `pipelinesVersion`."
+      - id: c
+        text: "`tkn version --component dashboard`."
+        explanation: "Not correct. That prints the version, not the mode."
+      - id: d
+        text: "`kubectl get pods -n tekton-pipelines`."
+        explanation: "Not correct. The pod status does not show the mode."
+    correct_option: b
+    explanation: "Correct. The answer also holds `dashboardVersion` and `pipelinesVersion`."
+
+  - id: ats124-020-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Go back from read/write to read-only"
+    source_readings:
+      - sections/section-020/module-01/course-03-install-the-dashboard.md
+    prompt: "The read/write Dashboard is installed. How do you switch to read-only and remove the extra permissions?"
+    options:
+      - id: a
+        text: "Delete the full release with `kubectl delete -f`, then apply the read-only release."
+        explanation: "Correct. `kubectl apply` never deletes objects that are missing from a file."
+      - id: b
+        text: "Apply `release.yaml` over it."
+        explanation: "Not correct. The flag changes, but the `edit` ClusterRoleBindings stay."
+      - id: c
+        text: "Patch the Deployment to set `--read-only=false`."
+        explanation: "Not correct. That flag makes the Dashboard read/write, not read-only."
+      - id: d
+        text: "Delete the namespace `tekton-pipelines`."
+        explanation: "Not correct. That removes Tekton Pipelines too."
+    correct_option: a
+    explanation: "Correct. `kubectl apply` never deletes objects that are missing from a file."
+
+  - id: ats124-020-q10
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Open the Dashboard"
+    source_readings:
+      - sections/section-020/module-01/course-03-install-the-dashboard.md
+    prompt: "The Dashboard Service has no external address. How do you open it from your machine?"
+    options:
+      - id: a
+        text: "Open `http://localhost:80`, because the Service is exposed on port 80."
+        explanation: "Not correct. The Service has no external address, and the port is 9097."
+      - id: b
+        text: "Run `kubectl -n tekton-pipelines port-forward svc/tekton-dashboard 9097:9097` and open `http://localhost:9097`."
+        explanation: "Correct. The Dashboard listens on port 9097 inside the cluster."
+      - id: c
+        text: "Browse to the pod IP address of the Dashboard from your machine."
+        explanation: "Not correct. Pod IP addresses are inside the cluster network. Use a port-forward."
+      - id: d
+        text: "Open the Service in the namespace `tekton-pipelines-resolvers`."
+        explanation: "Not correct. The Dashboard runs in `tekton-pipelines`."
+    correct_option: b
+    explanation: "Correct. The Dashboard listens on port 9097 inside the cluster."

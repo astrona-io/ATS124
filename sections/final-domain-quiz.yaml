@@ -1,0 +1,219 @@
+# Final domain knowledge check across all three sections.
+schema_version: 1
+kind: question_bank
+id: ats124-final
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: domain
+  id: fundamentals-architecture-tkn-cli
+  title: "Tekton: Fundamentals, Architecture & The tkn CLI"
+questions:
+  - id: ats124-final-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe the pod of a TaskRun"
+    source_readings:
+      - sections/section-010/module-01/course-02-one-pod-per-taskrun.md
+    prompt: "A Task has three steps. How many pods and step containers does Tekton create for one TaskRun of it?"
+    options:
+      - id: a
+        text: "Three pods, one for each step."
+        explanation: "Not correct. Tekton creates one pod per TaskRun, not one per step."
+      - id: b
+        text: "One pod, with one step container per step."
+        explanation: "Correct. The pod also has init containers such as `prepare` and `place-scripts`."
+      - id: c
+        text: "One pod with one container that runs all three steps."
+        explanation: "Not correct. Each step gets its own container with its own image."
+      - id: d
+        text: "One pod for the Task and one pod for each step."
+        explanation: "Not correct. A Task does not get a pod. Only a TaskRun does."
+    correct_option: b
+    explanation: "Correct. The pod also has init containers such as `prepare` and `place-scripts`."
+
+  - id: ats124-final-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the results of a TaskRun"
+    source_readings:
+      - sections/section-010/module-01/course-03-params-results-and-status.md
+    prompt: "Where does a value in `status.results` of a TaskRun come from?"
+    options:
+      - id: a
+        text: "From the log of the step container."
+        explanation: "Not correct. The log and the result are separate."
+      - id: b
+        text: "From the exit code of the step."
+        explanation: "Not correct. The exit code only decides whether the step failed."
+      - id: c
+        text: "From the file `$(results.<name>.path)`, which the step wrote and the controller read from the termination message."
+        explanation: "Correct. All results of one pod must fit into 4096 bytes."
+      - id: d
+        text: "From a ConfigMap that the controller creates."
+        explanation: "Not correct. Tekton keeps results in the TaskRun status, not in a ConfigMap."
+    correct_option: c
+    explanation: "Correct. All results of one pod must fit into 4096 bytes."
+
+  - id: ats124-final-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Diagnose a TaskRun that failed before its pod existed"
+    source_readings:
+      - sections/section-010/module-01/course-03-params-results-and-status.md
+    prompt: "A TaskRun does not pass the required parameter `crew`. Its `Succeeded` condition is `False` and `kubectl get pods` shows no pod for it. Why?"
+    options:
+      - id: a
+        text: "The controller compared the TaskRun with the Task and failed the run before it created a pod."
+        explanation: "Correct. The condition message names the missing parameter."
+      - id: b
+        text: "The step failed with exit code 1 and Tekton deleted the pod."
+        explanation: "Not correct. A failed step keeps its pod and its logs."
+      - id: c
+        text: "The step image could not be pulled."
+        explanation: "Not correct. An image pull failure needs a pod to exist first."
+      - id: d
+        text: "The scheduler could not place the pod."
+        explanation: "Not correct. That would leave a pod in `Pending`, not no pod."
+    correct_option: a
+    explanation: "Correct. The condition message names the missing parameter."
+
+  - id: ats124-final-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Handle the webhook after an installation"
+    source_readings:
+      - sections/section-020/module-01/course-01-install-tekton-pipelines.md
+    prompt: "Right after the installation, `kubectl apply` refuses a Task with an error that mentions the webhook. What is the likely cause and fix?"
+    options:
+      - id: a
+        text: "The CRDs are missing. Delete the release and install it again."
+        explanation: "Not correct. The error names the webhook, not a missing kind."
+      - id: b
+        text: "The ServiceAccount `default` is missing in the namespace."
+        explanation: "Not correct. That affects the pod of a run, not the admission of a Task."
+      - id: c
+        text: "The namespace needs the label `tekton.dev/enabled`."
+        explanation: "Not correct. Tekton does not need such a label on your namespace."
+      - id: d
+        text: "The webhook pod is not ready yet. Wait for the rollout and apply again."
+        explanation: "Correct. The API server must reach the webhook to admit every Tekton object."
+    correct_option: d
+    explanation: "Correct. The API server must reach the webhook to admit every Tekton object."
+
+  - id: ats124-final-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Avoid a broken default ServiceAccount"
+    source_readings:
+      - sections/section-020/module-01/course-02-config-defaults-and-feature-flags.md
+    prompt: "`default-service-account` names a ServiceAccount that does not exist in the namespace `starfleet`. What happens to a TaskRun there that sets no `serviceAccountName`?"
+    options:
+      - id: a
+        text: "Tekton creates the ServiceAccount."
+        explanation: "Not correct. The setting never creates anything."
+      - id: b
+        text: "It fails, because the controller cannot create a pod for a missing ServiceAccount."
+        explanation: "Correct. The default only names an account. It does not create one."
+      - id: c
+        text: "Tekton falls back to the ServiceAccount `default`."
+        explanation: "Not correct. There is no fallback to another account."
+      - id: d
+        text: "It runs, but without any permissions."
+        explanation: "Not correct. The pod cannot be created at all."
+    correct_option: b
+    explanation: "Correct. The default only names an account. It does not create one."
+
+  - id: ats124-final-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Go back from read/write to read-only"
+    source_readings:
+      - sections/section-020/module-01/course-03-install-the-dashboard.md
+    prompt: "The read/write Dashboard is installed. How do you switch to read-only and remove the extra permissions?"
+    options:
+      - id: a
+        text: "Delete the full release with `kubectl delete -f`, then apply the read-only release."
+        explanation: "Correct. `kubectl apply` never deletes objects that are missing from a file."
+      - id: b
+        text: "Apply `release.yaml` over it."
+        explanation: "Not correct. The flag changes, but the `edit` ClusterRoleBindings stay."
+      - id: c
+        text: "Patch the Deployment to set `--read-only=false`."
+        explanation: "Not correct. That flag makes the Dashboard read/write, not read-only."
+      - id: d
+        text: "Delete the namespace `tekton-pipelines`."
+        explanation: "Not correct. That removes Tekton Pipelines too."
+    correct_option: a
+    explanation: "Correct. `kubectl apply` never deletes objects that are missing from a file."
+
+  - id: ats124-final-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the output of tkn version"
+    source_readings:
+      - sections/section-030/module-01/course-01-set-up-tkn-and-contexts.md
+    prompt: "`tkn version` prints only the client version. What does that tell you?"
+    options:
+      - id: a
+        text: "Tekton Pipelines runs correctly."
+        explanation: "Not correct. The client version prints even without a cluster."
+      - id: b
+        text: "The kubeconfig file is empty."
+        explanation: "Not correct. An empty kubeconfig is not the only possible reason."
+      - id: c
+        text: "The cluster may be unreachable, or Tekton may not be installed. The client line alone does not prove a connection."
+        explanation: "Correct. Look for the Pipeline version line."
+      - id: d
+        text: "The cluster is older than Kubernetes 1.28."
+        explanation: "Not correct. `tkn` does not report the Kubernetes version."
+    correct_option: c
+    explanation: "Correct. Look for the Pipeline version line."
+
+  - id: ats124-final-q08
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Follow the logs of a started Task"
+    source_readings:
+      - sections/section-030/module-01/course-02-start-tasks-with-tkn.md
+    prompt: "What does `--showlog` do in `tkn task start hello -p crew=bridge --showlog`?"
+    options:
+      - id: a
+        text: "It prints the TaskRun as YAML and does not run it."
+        explanation: "Not correct. That is `--dry-run` with `--output yaml`."
+      - id: b
+        text: "It keeps the pod after the run ends."
+        explanation: "Not correct. The flag only changes what `tkn` prints."
+      - id: c
+        text: "It shows only the log of the last step."
+        explanation: "Not correct. It shows all steps, with the step name before each line."
+      - id: d
+        text: "It follows the logs of all steps until the run ends."
+        explanation: "Correct. Without it, `tkn` prints the TaskRun name and returns at once."
+    correct_option: d
+    explanation: "Correct. Without it, `tkn` prints the TaskRun name and returns at once."
+
+  - id: ats124-final-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Clean up TaskRuns"
+    source_readings:
+      - sections/section-030/module-01/course-03-inspect-and-clean-up-taskruns.md
+    prompt: "Which command deletes all TaskRuns of the Task `hello` except the 2 newest, and keeps the Task?"
+    options:
+      - id: a
+        text: "`tkn task delete hello --keep 2`."
+        explanation: "Not correct. That deletes Tasks, not TaskRuns."
+      - id: b
+        text: "`tkn taskrun delete --task hello --keep 2`."
+        explanation: "Correct. Add `-f` in a script to skip the confirmation."
+      - id: c
+        text: "`tkn taskrun delete --all`."
+        explanation: "Not correct. `--all` deletes every TaskRun in the namespace."
+      - id: d
+        text: "`tkn taskrun delete --task hello`."
+        explanation: "Not correct. That deletes all runs of `hello`, with no `--keep`."
+    correct_option: b
+    explanation: "Correct. Add `-f` in a script to skip the confirmation."
