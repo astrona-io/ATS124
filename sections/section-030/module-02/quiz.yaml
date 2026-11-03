@@ -1,0 +1,245 @@
+# Knowledge check for module 030-02. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+id: ats124-030-02
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-030
+  title: "Run Pipelines With tkn"
+placement:
+  position: after
+  reading: sections/section-030/module-02/course-05-summary.md
+questions:
+  - id: ats124-030-02-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "List Pipelines"
+    source_readings:
+      - sections/section-030/module-02/course-01-list-describe-and-start-pipelines.md
+    prompt: "Which command shows the parameters and workspaces of a Pipeline?"
+    options:
+      - id: a
+        text: "tkn pipeline describe NAME"
+        explanation: "Correct. The output lists parameters with defaults, workspaces and tasks."
+      - id: b
+        text: "tkn pipeline list"
+        explanation: "Not correct. It lists names only."
+      - id: c
+        text: "tkn pipelinerun describe NAME"
+        explanation: "Not correct. That describes a run."
+      - id: d
+        text: "tkn task describe NAME"
+        explanation: "Not correct. That describes a Task."
+    correct_option: a
+    explanation: "Correct. The output lists parameters with defaults, workspaces and tasks."
+
+  - id: ats124-030-02-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Set a parameter"
+    source_readings:
+      - sections/section-030/module-02/course-01-list-describe-and-start-pipelines.md
+    prompt: "Which flag sets a parameter when you start a Pipeline?"
+    options:
+      - id: a
+        text: "--param-file"
+        explanation: "Not correct. This is not a tkn start flag."
+      - id: b
+        text: "-p name=value"
+        explanation: "Correct. Use --use-param-defaults to accept defaults without a question."
+      - id: c
+        text: "-w name=value"
+        explanation: "Not correct. Workspaces use --workspace."
+      - id: d
+        text: "--set name=value"
+        explanation: "Not correct. This is not a tkn flag."
+    correct_option: b
+    explanation: "Correct. Use --use-param-defaults to accept defaults without a question."
+
+  - id: ats124-030-02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name a run"
+    source_readings:
+      - sections/section-030/module-02/course-01-list-describe-and-start-pipelines.md
+    prompt: "What does --prefix-name ship do?"
+    options:
+      - id: a
+        text: "Names the Pipeline ship."
+        explanation: "Not correct. The Pipeline name is the first argument."
+      - id: b
+        text: "Names the namespace ship."
+        explanation: "Not correct. Use -n for that."
+      - id: c
+        text: "Makes the generated name of the run start with ship."
+        explanation: "Correct. The run name gets a generated suffix."
+      - id: d
+        text: "Sets the task prefix."
+        explanation: "Not correct. It affects the run name only."
+    correct_option: c
+    explanation: "Correct. The run name gets a generated suffix."
+
+  - id: ats124-030-02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Preview a run"
+    source_readings:
+      - sections/section-030/module-02/course-01-list-describe-and-start-pipelines.md
+    prompt: "Which flags print the PipelineRun without creating it?"
+    options:
+      - id: a
+        text: "--preview"
+        explanation: "Not correct. This is not a tkn flag."
+      - id: b
+        text: "--showlog"
+        explanation: "Not correct. It follows the log of a real run."
+      - id: c
+        text: "--last"
+        explanation: "Not correct. It copies the last run."
+      - id: d
+        text: "--dry-run --output yaml"
+        explanation: "Correct. Create the file later with kubectl create -f, because it uses generateName."
+    correct_option: d
+    explanation: "Correct. Create the file later with kubectl create -f, because it uses generateName."
+
+  - id: ats124-030-02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose a workspace"
+    source_readings:
+      - sections/section-030/module-02/course-01-list-describe-and-start-pipelines.md
+    prompt: "Which workspace type for tkn pipeline start is deleted together with the run?"
+    options:
+      - id: a
+        text: "volumeClaimTemplateFile"
+        explanation: "Correct. The PVC is owned by the run."
+      - id: b
+        text: "emptyDir with a PVC."
+        explanation: "Not correct. emptyDir lives in one pod and has no PVC."
+      - id: c
+        text: "persistentVolumeClaim=existing."
+        explanation: "Not correct. An existing claim is kept."
+      - id: d
+        text: "configMap."
+        explanation: "Not correct. It holds read-only data."
+    correct_option: a
+    explanation: "Correct. The PVC is owned by the run."
+
+  - id: ats124-030-02-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read the newest run"
+    source_readings:
+      - sections/section-030/module-02/course-02-read-pipelineruns-and-their-logs.md
+    prompt: "Which command describes the newest run of the Pipeline deliver?"
+    options:
+      - id: a
+        text: "tkn pipeline describe --last"
+        explanation: "Not correct. That describes a Pipeline."
+      - id: b
+        text: "tkn pipelinerun describe --last deliver"
+        explanation: "Correct. Name the Pipeline, so another run in the namespace is not picked."
+      - id: c
+        text: "tkn pipelinerun last deliver"
+        explanation: "Not correct. No such command."
+      - id: d
+        text: "tkn pipelinerun list --newest"
+        explanation: "Not correct. No such flag."
+    correct_option: b
+    explanation: "Correct. Name the Pipeline, so another run in the namespace is not picked."
+
+  - id: ats124-030-02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read one task log"
+    source_readings:
+      - sections/section-030/module-02/course-02-read-pipelineruns-and-their-logs.md
+    prompt: "Which flag reads the log of one task of a run?"
+    options:
+      - id: a
+        text: "-s TASK"
+        explanation: "Not correct. Not a tkn flag for this."
+      - id: b
+        text: "--step TASK"
+        explanation: "Not correct. That selects a step, not a task."
+      - id: c
+        text: "-t TASK"
+        explanation: "Correct. Use -f to follow a running run."
+      - id: d
+        text: "-p TASK"
+        explanation: "Not correct. That sets a parameter when starting."
+    correct_option: c
+    explanation: "Correct. Use -f to follow a running run."
+
+  - id: ats124-030-02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Cancel a run"
+    source_readings:
+      - sections/section-030/module-02/course-03-cancel-rerun-and-clean-up.md
+    prompt: "What does tkn pipelinerun cancel do?"
+    options:
+      - id: a
+        text: "Deletes the run."
+        explanation: "Not correct. Delete removes the record."
+      - id: b
+        text: "Pauses the run for later."
+        explanation: "Not correct. Cancelled runs do not resume."
+      - id: c
+        text: "Restarts the run."
+        explanation: "Not correct. It stops it."
+      - id: d
+        text: "Ends the run and keeps its record."
+        explanation: "Correct. It sets spec.status to Cancelled."
+    correct_option: d
+    explanation: "Correct. It sets spec.status to Cancelled."
+
+  - id: ats124-030-02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Repeat a run"
+    source_readings:
+      - sections/section-030/module-02/course-03-cancel-rerun-and-clean-up.md
+    prompt: "What does --use-pipelinerun NAME do?"
+    options:
+      - id: a
+        text: "Creates a new run with the parameters, workspaces and ServiceAccount of the old one."
+        explanation: "Correct. You can override one value on top of the copy with -p."
+      - id: b
+        text: "Runs the old PipelineRun again."
+        explanation: "Not correct. A finished run never runs again."
+      - id: c
+        text: "Edits the old run."
+        explanation: "Not correct. It creates a new run."
+      - id: d
+        text: "Deletes the old run."
+        explanation: "Not correct. It does not."
+    correct_option: a
+    explanation: "Correct. You can override one value on top of the copy with -p."
+
+  - id: ats124-030-02-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Clean up runs"
+    source_readings:
+      - sections/section-030/module-02/course-03-cancel-rerun-and-clean-up.md
+    prompt: "Which command keeps the three newest runs of deliver and deletes the rest?"
+    options:
+      - id: a
+        text: "tkn pipelinerun delete --keep 3"
+        explanation: "Not correct. Name the Pipeline, or the selection may differ."
+      - id: b
+        text: "tkn pipelinerun delete --pipeline deliver --keep 3 -f"
+        explanation: "Correct. Deleting also removes the TaskRuns, pods and PVCs of the runs."
+      - id: c
+        text: "tkn pipeline delete deliver --keep 3"
+        explanation: "Not correct. That deletes the Pipeline."
+      - id: d
+        text: "tkn pipelinerun prune 3"
+        explanation: "Not correct. No such command."
+    correct_option: b
+    explanation: "Correct. Deleting also removes the TaskRuns, pods and PVCs of the runs."

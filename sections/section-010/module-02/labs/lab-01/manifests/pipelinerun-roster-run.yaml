@@ -1,0 +1,13 @@
+# The PipelineRun the lab starts with. It has a fault: it does not bind the
+# workspace "shared" that the Pipeline requires.
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: roster-run
+  namespace: starfleet
+spec:
+  pipelineRef:
+    name: roster
+  params:
+    - name: crew
+      value: "bridge scout probe"

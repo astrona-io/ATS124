@@ -1,0 +1,35 @@
+# Reference end state of the Pipeline: the pipeline task "read" refers to the Task read-roster.
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: roster
+  namespace: starfleet
+spec:
+  params:
+    - name: crew
+      type: string
+  workspaces:
+    - name: shared
+  tasks:
+    - name: write
+      taskRef:
+        name: write-roster
+      params:
+        - name: crew
+          value: $(params.crew)
+      workspaces:
+        - name: shared
+          workspace: shared
+    - name: read
+      taskRef:
+        name: read-roster
+      params:
+        - name: count
+          value: $(tasks.write.results.count)
+      workspaces:
+        - name: shared
+          workspace: shared
+  results:
+    - name: report
+      type: string
+      value: $(tasks.read.results.report)

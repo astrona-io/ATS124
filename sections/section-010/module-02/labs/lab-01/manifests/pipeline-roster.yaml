@@ -1,0 +1,36 @@
+# The Pipeline the lab starts with. It has a fault: the pipeline task "read"
+# refers to a Task called read-rosters, but the Task is called read-roster.
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: roster
+  namespace: starfleet
+spec:
+  params:
+    - name: crew
+      type: string
+  workspaces:
+    - name: shared
+  tasks:
+    - name: write
+      taskRef:
+        name: write-roster
+      params:
+        - name: crew
+          value: $(params.crew)
+      workspaces:
+        - name: shared
+          workspace: shared
+    - name: read
+      taskRef:
+        name: read-rosters
+      params:
+        - name: count
+          value: $(tasks.write.results.count)
+      workspaces:
+        - name: shared
+          workspace: shared
+  results:
+    - name: report
+      type: string
+      value: $(tasks.read.results.report)

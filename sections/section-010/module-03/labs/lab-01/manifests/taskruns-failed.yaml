@@ -1,0 +1,37 @@
+# Four TaskRuns, each with a different fault. They are expected to fail.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: r-missing-task
+  namespace: starfleet
+spec:
+  taskRef:
+    name: ghost-task
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: r-missing-param
+  namespace: starfleet
+spec:
+  taskRef:
+    name: echo-name
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: r-step-fail
+  namespace: starfleet
+spec:
+  taskRef:
+    name: fail-fast
+---
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: r-timeout
+  namespace: starfleet
+spec:
+  timeout: 15s
+  taskRef:
+    name: sleeper

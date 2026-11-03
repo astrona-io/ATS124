@@ -31,9 +31,9 @@ contains:
 
 | Section | Title | Modules | Labs | Topic |
 | --- | --- | --- | --- | --- |
-| [010](sections/section-010) | Tekton Architecture And The Execution Model | 1 | 1 + capstone | Execution model |
-| [020](sections/section-020) | Install Tekton Pipelines And The Dashboard | 1 | 1 + capstone | Installation |
-| [030](sections/section-030) | Run And Inspect Work With The tkn CLI | 1 | 1 + capstone | tkn CLI |
+| [010](sections/section-010) | Tekton Architecture And The Execution Model | 3 | 3 + capstone | Execution model |
+| [020](sections/section-020) | Install Tekton Pipelines And The Dashboard | 2 | 2 + capstone | Installation |
+| [030](sections/section-030) | Run And Inspect Work With The tkn CLI | 2 | 2 + capstone | tkn CLI |
 
 The order goes from model to installation to daily use. Section 010 starts
 on a cluster where Tekton already runs and shows how a `TaskRun` becomes a pod
@@ -48,15 +48,23 @@ command-line tool, used against a complete installation.
 
 | Module | Reader | Parts | Labs |
 | --- | --- | --- | --- |
-| 010-01 | [See How Tekton Runs A Task](sections/section-010/module-01/course.md) | 3 | [lab-01](sections/section-010/module-01/labs/lab-01) |
-| 020-01 | [Install And Configure Tekton](sections/section-020/module-01/course.md) | 3 | [lab-01](sections/section-020/module-01/labs/lab-01) |
-| 030-01 | [Run And Inspect Work With tkn](sections/section-030/module-01/course.md) | 3 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 010-01 | [See How Tekton Runs A Task](sections/section-010/module-01/course.md) | 4 | [lab-01](sections/section-010/module-01/labs/lab-01) |
+| 020-01 | [Install And Configure Tekton](sections/section-020/module-01/course.md) | 4 | [lab-01](sections/section-020/module-01/labs/lab-01) |
+| 030-01 | [Run And Inspect Work With tkn](sections/section-030/module-01/course.md) | 4 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 010-02 | [See How A Pipeline Becomes TaskRuns](sections/section-010/module-02/course.md) | 4 | [lab-01](sections/section-010/module-02/labs/lab-01) |
+| 010-03 | [Follow The Tekton Controllers](sections/section-010/module-03/course.md) | 4 | [lab-01](sections/section-010/module-03/labs/lab-01) |
+| 020-02 | [Operate The Tekton Installation](sections/section-020/module-02/course.md) | 4 | [lab-01](sections/section-020/module-02/labs/lab-01) |
+| 030-02 | [Run Pipelines With tkn](sections/section-030/module-02/course.md) | 4 | [lab-01](sections/section-030/module-02/labs/lab-01) |
 
 | Lab | Title | Kind | Faults or work |
 | --- | --- | --- | --- |
 | 010-01 | Diagnose A Failing TaskRun | troubleshooting | a wrong parameter name in the TaskRun, steps sharing a file through `/tmp` |
 | 020-01 | Finish A Tekton Installation | build | Dashboard missing, `config-defaults` with a missing ServiceAccount and a 90-minute timeout |
 | 030-01 | Run A Parameterised Task With tkn | build | the same Task name in `starfleet` and `default`, a stray run in `default` |
+| 010-02 | Repair A Two-Task Pipeline | troubleshooting | a result and a file passed wrongly between two tasks |
+| 010-03 | Triage Four Failed Runs | troubleshooting | four failed TaskRuns with four different causes |
+| 020-02 | Set Defaults For The Installation | build | `config-defaults` without a pod template and managed-by label |
+| 030-02 | Operate Pipelines With tkn | build | start a run, cancel a hung run, keep the newest three runs |
 
 ---
 

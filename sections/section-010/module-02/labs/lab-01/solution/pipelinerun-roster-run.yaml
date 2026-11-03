@@ -1,0 +1,22 @@
+# Reference end state of the PipelineRun: it binds the workspace "shared" to a
+# PersistentVolumeClaim created from a volumeClaimTemplate.
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: roster-run
+  namespace: starfleet
+spec:
+  pipelineRef:
+    name: roster
+  params:
+    - name: crew
+      value: "bridge scout probe"
+  workspaces:
+    - name: shared
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 16Mi

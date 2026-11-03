@@ -217,3 +217,164 @@ questions:
         explanation: "Not correct. That deletes all runs of `hello`, with no `--keep`."
     correct_option: b
     explanation: "Correct. Add `-f` in a script to skip the confirmation."
+
+  - id: ats124-final-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "End a TaskRun that takes too long"
+    source_readings:
+      - sections/section-010/module-01/course-04-timeouts-and-cancellation.md
+    prompt: "A TaskRun ends because spec.timeout passed. Which reason does its Succeeded condition show?"
+    options:
+      - id: a
+        text: "TaskRunTimeout"
+        explanation: "Correct. The three reasons tell who ended the run: your script, the time limit or a person."
+      - id: b
+        text: "TaskRunCancelled"
+        explanation: "Not correct. That reason is for a cancel through spec.status."
+      - id: c
+        text: "StepFailed"
+        explanation: "Not correct. That reason is for a step with a non-zero exit code."
+      - id: d
+        text: "Succeeded"
+        explanation: "Not correct. The run failed."
+    correct_option: a
+    explanation: "Correct. The three reasons tell who ended the run: your script, the time limit or a person."
+
+  - id: ats124-final-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Cancel a TaskRun"
+    source_readings:
+      - sections/section-010/module-01/course-04-timeouts-and-cancellation.md
+    prompt: "Which field of a started TaskRun may you change to cancel it?"
+    options:
+      - id: a
+        text: "spec.timeout"
+        explanation: "Not correct. It cannot be changed after the start."
+      - id: b
+        text: "spec.status set to TaskRunCancelled"
+        explanation: "Correct. Only spec.status and spec.statusMessage may change on a started run."
+      - id: c
+        text: "spec.taskRef"
+        explanation: "Not correct. The webhook rejects changes to it."
+      - id: d
+        text: "metadata.name"
+        explanation: "Not correct. Names cannot change."
+    correct_option: b
+    explanation: "Correct. Only spec.status and spec.statusMessage may change on a started run."
+
+  - id: ats124-final-q12
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Upgrade Tekton"
+    source_readings:
+      - sections/section-020/module-01/course-04-upgrade-and-uninstall.md
+    prompt: "How do you upgrade Tekton Pipelines?"
+    options:
+      - id: a
+        text: "Run tkn upgrade."
+        explanation: "Not correct. tkn has no upgrade command."
+      - id: b
+        text: "Delete the namespace and reinstall."
+        explanation: "Not correct. This would remove the custom resources."
+      - id: c
+        text: "Apply the release.yaml of the new version over the old one with kubectl apply."
+        explanation: "Correct. Read the release notes first and move one release line at a time."
+      - id: d
+        text: "Edit the Deployment image by hand."
+        explanation: "Not correct. The manifest changes more than the image."
+    correct_option: c
+    explanation: "Correct. Read the release notes first and move one release line at a time."
+
+  - id: ats124-final-q13
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Know what an uninstall removes"
+    source_readings:
+      - sections/section-020/module-01/course-04-upgrade-and-uninstall.md
+    prompt: "What does kubectl delete -f release.yaml remove, besides the Deployments?"
+    options:
+      - id: a
+        text: "Only the namespace tekton-pipelines."
+        explanation: "Not correct. The CRDs are in the manifest too."
+      - id: b
+        text: "Nothing in the user namespaces."
+        explanation: "Not correct. Deleting a CRD deletes its objects."
+      - id: c
+        text: "Only the pods of running runs."
+        explanation: "Not correct. All the objects are removed."
+      - id: d
+        text: "The CRDs, and with them every Task, TaskRun, Pipeline and PipelineRun in all namespaces."
+        explanation: "Correct. Run it only in a cluster you can throw away."
+    correct_option: d
+    explanation: "Correct. Run it only in a cluster you can throw away."
+
+  - id: ats124-final-q14
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Choose an output format"
+    source_readings:
+      - sections/section-030/module-01/course-04-output-formats-and-dry-runs.md
+    prompt: "Which flag prints one resource name per line for a shell loop?"
+    options:
+      - id: a
+        text: "-o name"
+        explanation: "Correct. Use -o json when another program reads the output."
+      - id: b
+        text: "--no-headers"
+        explanation: "Not correct. It drops the header line of the table only."
+      - id: c
+        text: "--dry-run"
+        explanation: "Not correct. It creates nothing but prints the object."
+      - id: d
+        text: "--last"
+        explanation: "Not correct. It selects the newest run."
+    correct_option: a
+    explanation: "Correct. Use -o json when another program reads the output."
+
+  - id: ats124-final-q15
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Reason about a controller restart"
+    source_readings:
+      - sections/section-010/module-03/course-01-the-reconcile-loop-and-the-webhook.md
+    prompt: "Which component writes defaults into a TaskRun when you create it?"
+    options:
+      - id: a
+        text: "The controller."
+        explanation: "Not correct. The controller acts after storage."
+      - id: b
+        text: "The webhook."
+        explanation: "Correct. Defaults come from config-defaults."
+      - id: c
+        text: "The events controller."
+        explanation: "Not correct. It sends CloudEvents."
+      - id: d
+        text: "The kubelet."
+        explanation: "Not correct. It runs the pods."
+    correct_option: b
+    explanation: "Correct. Defaults come from config-defaults."
+
+  - id: ats124-final-q16
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Stop a hung Pipeline run"
+    source_readings:
+      - sections/section-030/module-02/course-03-cancel-rerun-and-clean-up.md
+    prompt: "You must stop a PipelineRun and keep its record. Which command?"
+    options:
+      - id: a
+        text: "tkn pipelinerun delete NAME"
+        explanation: "Not correct. Delete removes the record."
+      - id: b
+        text: "kubectl delete pod NAME"
+        explanation: "Not correct. The controller may create the pod again."
+      - id: c
+        text: "tkn pipelinerun cancel NAME"
+        explanation: "Correct. The run ends with Succeeded=False."
+      - id: d
+        text: "tkn pipeline stop NAME"
+        explanation: "Not correct. No such command."
+    correct_option: c
+    explanation: "Correct. The run ends with Succeeded=False."

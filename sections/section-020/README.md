@@ -14,10 +14,12 @@ This section installs Tekton on an empty `kind` cluster, the way the Tekton docu
 - Changing defaults in `config-defaults` (`default-timeout-minutes`, `default-service-account`) and when a change takes effect.
 - Reading `feature-flags`: `enable-api-fields`, `enable-step-actions`, `set-security-context` and others.
 - Installing the Tekton Dashboard v0.73.0 from `release.yaml` (read-only) or `release-full.yaml` (read/write), and opening it on port `9097`.
+- Upgrading by applying a newer release manifest, and what an uninstall removes.
+- Setting log levels, metrics, leader election and buckets, default pod templates, quotas, and when the Tekton Operator owns the ConfigMaps.
 
 ## The learning path
 
-The section has one module. It has a landing page, three short parts, a graded lab right after the part it tests, and a summary. The module also has its own playground, a cluster where you can explore freely, and the landing page starts it for you.
+The section has two modules. Each has a landing page, ordered parts, a graded lab right after the part it tests, and a summary. Each module also has its own playground, a cluster where you can explore freely, and the landing page starts it for you.
 
 ### 1. Install And Configure Tekton
 
@@ -26,11 +28,22 @@ The module starts at its landing page, which also launches the playground. The p
 1. Install Tekton Pipelines From The Release Manifest
 2. Configure Defaults And Feature Flags
 3. Install The Tekton Dashboard, followed by the lab **Finish A Tekton Installation**
-4. Summary
+4. Upgrade And Uninstall Tekton Pipelines
+5. Summary
+
+### 2. Operate The Tekton Installation
+
+This module is about running the installation: logs, high availability, limits and the Operator. Its playground has Tekton installed.
+
+1. Logging And Observability
+2. High Availability And Leader Election
+3. Limit What Runs Can Use, followed by the lab **Set Defaults For The Installation**
+4. The Tekton Operator And TektonConfig
+5. Summary
 
 ## Section capstone: Repair A Broken Tekton Installation
 
-The capstone is one graded scenario that combines the whole module. Someone "cleaned up" the Tekton installation of the `starfleet` team: TaskRuns no longer start, no Task can be applied, and the Dashboard lets anyone change and delete runs although the team asked for a read-only Dashboard. Find out which component stopped and why, bring the installation back, and prove it with a TaskRun. Work it after the module lab.
+The capstone is one graded scenario that combines the first module. Someone "cleaned up" the Tekton installation of the `starfleet` team: TaskRuns no longer start, no Task can be applied, and the Dashboard lets anyone change and delete runs although the team asked for a read-only Dashboard. Find out which component stopped and why, bring the installation back, and prove it with a TaskRun. Work it after the module lab.
 
 Start the capstone:
 

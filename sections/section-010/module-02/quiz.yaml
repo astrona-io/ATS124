@@ -1,0 +1,245 @@
+# Knowledge check for module 010-02. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+id: ats124-010-02
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "See How A Pipeline Becomes TaskRuns"
+placement:
+  position: after
+  reading: sections/section-010/module-02/course-05-summary.md
+questions:
+  - id: ats124-010-02-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Say what a PipelineRun creates"
+    source_readings:
+      - sections/section-010/module-02/course-02-how-the-controller-builds-a-pipelinerun.md
+    prompt: "Which objects does the controller create when a PipelineRun starts a task?"
+    options:
+      - id: a
+        text: "A TaskRun for that task, which gets its own pod."
+        explanation: "Correct. A PipelineRun is a group of TaskRuns, and only the TaskRuns have pods."
+      - id: b
+        text: "A pod directly, with no TaskRun."
+        explanation: "Not correct. Only a TaskRun has a pod; the controller makes a TaskRun first."
+      - id: c
+        text: "One shared pod for all tasks of the Pipeline."
+        explanation: "Not correct. Each task runs in its own pod."
+      - id: d
+        text: "A Deployment for each task."
+        explanation: "Not correct. Tekton runs tasks as pods owned by TaskRuns, not as Deployments."
+    correct_option: a
+    explanation: "Correct. A PipelineRun is a group of TaskRuns, and only the TaskRuns have pods."
+
+  - id: ats124-010-02-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Order tasks in a Pipeline"
+    source_readings:
+      - sections/section-010/module-02/course-01-run-your-first-pipeline.md
+    prompt: "Two tasks in a Pipeline have no runAfter and share no result. How do they run?"
+    options:
+      - id: a
+        text: "One after the other, in the order they are listed."
+        explanation: "Not correct. The listing order does not create an order."
+      - id: b
+        text: "At the same time."
+        explanation: "Correct. Tasks without runAfter or a result reference have no relation, so they start together."
+      - id: c
+        text: "The second waits until the first has a pod."
+        explanation: "Not correct. Only runAfter or a result reference makes a task wait."
+      - id: d
+        text: "Neither runs until you add runAfter."
+        explanation: "Not correct. Tasks without a relation start right away."
+    correct_option: b
+    explanation: "Correct. Tasks without runAfter or a result reference have no relation, so they start together."
+
+  - id: ats124-010-02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find the children of a PipelineRun"
+    source_readings:
+      - sections/section-010/module-02/course-02-how-the-controller-builds-a-pipelinerun.md
+    prompt: "Which label on a TaskRun holds the name of the PipelineRun that owns it?"
+    options:
+      - id: a
+        text: "tekton.dev/pipeline"
+        explanation: "Not correct. This label holds the name of the Pipeline, not of the run."
+      - id: b
+        text: "tekton.dev/pipelineTask"
+        explanation: "Not correct. This label holds the name of the task inside the Pipeline."
+      - id: c
+        text: "tekton.dev/pipelineRun"
+        explanation: "Correct. The label tekton.dev/pipelineRun selects every child TaskRun of one run."
+      - id: d
+        text: "tekton.dev/task"
+        explanation: "Not correct. This label holds the name of a Task."
+    correct_option: c
+    explanation: "Correct. The label tekton.dev/pipelineRun selects every child TaskRun of one run."
+
+  - id: ats124-010-02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Delete a PipelineRun"
+    source_readings:
+      - sections/section-010/module-02/course-02-how-the-controller-builds-a-pipelinerun.md
+    prompt: "What happens to the TaskRuns and pods when you delete a PipelineRun?"
+    options:
+      - id: a
+        text: "They stay, and keep running."
+        explanation: "Not correct. The owner reference makes Kubernetes delete the children."
+      - id: b
+        text: "Only the pods are deleted."
+        explanation: "Not correct. The TaskRuns are children as well and are deleted."
+      - id: c
+        text: "The TaskRuns stay but lose their labels."
+        explanation: "Not correct. Labels are not changed; the objects are removed."
+      - id: d
+        text: "They are deleted too, because the PipelineRun owns them."
+        explanation: "Correct. Child TaskRuns carry an owner reference to the PipelineRun, so deleting it deletes them, their pods and a PVC from a volumeClaimTemplate."
+    correct_option: d
+    explanation: "Correct. Child TaskRuns carry an owner reference to the PipelineRun, so deleting it deletes them, their pods and a PVC from a volumeClaimTemplate."
+
+  - id: ats124-010-02-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Pass a short value between tasks"
+    source_readings:
+      - sections/section-010/module-02/course-03-pass-data-between-tasks.md
+    prompt: "How does a task read the result \"version\" of the task \"build\"?"
+    options:
+      - id: a
+        text: "$(tasks.build.results.version)"
+        explanation: "Correct. A reference to a result of another task also makes the reading task wait for it."
+      - id: b
+        text: "$(results.build.version.path)"
+        explanation: "Not correct. This path is how the build step writes its own result."
+      - id: c
+        text: "$(params.build.version)"
+        explanation: "Not correct. Parameters are inputs of the Pipeline, not results of a task."
+      - id: d
+        text: "/workspace/build/version"
+        explanation: "Not correct. Tasks run in separate pods, so /workspace is not shared."
+    correct_option: a
+    explanation: "Correct. A reference to a result of another task also makes the reading task wait for it."
+
+  - id: ats124-010-02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Share a file between tasks"
+    source_readings:
+      - sections/section-010/module-02/course-03-pass-data-between-tasks.md
+    prompt: "Task one writes a file to /workspace and task two cannot find it. Why?"
+    options:
+      - id: a
+        text: "The file name was too long."
+        explanation: "Not correct. Length is not the reason; the pods are separate."
+      - id: b
+        text: "Each task runs in its own pod, so a file needs a workspace bound to a PVC."
+        explanation: "Correct. A workspace that the PipelineRun binds to a PVC carries files from one pod to the next."
+      - id: c
+        text: "Results delete files after one task."
+        explanation: "Not correct. Results do not delete files."
+      - id: d
+        text: "/workspace is shared only inside the Pipeline controller."
+        explanation: "Not correct. /workspace is a folder of one pod."
+    correct_option: b
+    explanation: "Correct. A workspace that the PipelineRun binds to a PVC carries files from one pod to the next."
+
+  - id: ats124-010-02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read a missing workspace"
+    source_readings:
+      - sections/section-010/module-02/course-02-how-the-controller-builds-a-pipelinerun.md
+    prompt: "A Pipeline declares a required workspace and the PipelineRun does not bind it. What happens?"
+    options:
+      - id: a
+        text: "The run uses an emptyDir by default."
+        explanation: "Not correct. Tekton does not bind a workspace for you."
+      - id: b
+        text: "The first task runs and the second fails."
+        explanation: "Not correct. The check happens before any task starts."
+      - id: c
+        text: "The run fails before any pod starts."
+        explanation: "Correct. A required workspace that is not bound is an error of the whole run."
+      - id: d
+        text: "The webhook deletes the Pipeline."
+        explanation: "Not correct. The webhook does not delete objects."
+    correct_option: c
+    explanation: "Correct. A required workspace that is not bound is an error of the whole run."
+
+  - id: ats124-010-02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Skip tasks after a failure"
+    source_readings:
+      - sections/section-010/module-02/course-04-failures-retries-finally-and-cancellation.md
+    prompt: "Task b depends on task a with runAfter, and a fails. What happens to b?"
+    options:
+      - id: a
+        text: "It runs anyway."
+        explanation: "Not correct. A failed task stops the tasks that depend on it."
+      - id: b
+        text: "It is retried until a succeeds."
+        explanation: "Not correct. Retries repeat a task that failed, not its dependants."
+      - id: c
+        text: "It runs in the finally section."
+        explanation: "Not correct. Only tasks listed under finally run there."
+      - id: d
+        text: "It is skipped and no TaskRun is created for it."
+        explanation: "Correct. The controller never creates a TaskRun for a skipped task."
+    correct_option: d
+    explanation: "Correct. The controller never creates a TaskRun for a skipped task."
+
+  - id: ats124-010-02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use retries and finally"
+    source_readings:
+      - sections/section-010/module-02/course-04-failures-retries-finally-and-cancellation.md
+    prompt: "Which statement about finally tasks is true?"
+    options:
+      - id: a
+        text: "They run last, whether the other tasks succeeded or failed."
+        explanation: "Correct. finally is the place for cleanup and reporting that must happen after any outcome."
+      - id: b
+        text: "They run only when every task succeeded."
+        explanation: "Not correct. They run in both cases."
+      - id: c
+        text: "They run first, to prepare the others."
+        explanation: "Not correct. They run after the other tasks."
+      - id: d
+        text: "They run once for each retry."
+        explanation: "Not correct. A retry repeats the same TaskRun; finally runs once at the end."
+    correct_option: a
+    explanation: "Correct. finally is the place for cleanup and reporting that must happen after any outcome."
+
+  - id: ats124-010-02-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Stop a PipelineRun"
+    source_readings:
+      - sections/section-010/module-02/course-04-failures-retries-finally-and-cancellation.md
+    prompt: "Which setting cancels a running PipelineRun and keeps its record?"
+    options:
+      - id: a
+        text: "spec.status: TaskRunCancelled"
+        explanation: "Not correct. That value is for a TaskRun."
+      - id: b
+        text: "spec.status: Cancelled"
+        explanation: "Correct. The controller stops the child pods and marks the run as failed with the reason Cancelled."
+      - id: c
+        text: "Deleting the PipelineRun"
+        explanation: "Not correct. Delete removes the record."
+      - id: d
+        text: "spec.timeouts: 0s"
+        explanation: "Not correct. That does not cancel a run and may disable the limit."
+    correct_option: b
+    explanation: "Correct. The controller stops the child pods and marks the run as failed with the reason Cancelled."

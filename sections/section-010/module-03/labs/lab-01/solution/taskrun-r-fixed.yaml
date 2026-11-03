@@ -1,0 +1,12 @@
+# Reference solution: a run of echo-name with the parameter supplied.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: r-fixed
+  namespace: starfleet
+spec:
+  taskRef:
+    name: echo-name
+  params:
+    - name: name
+      value: warp

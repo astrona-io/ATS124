@@ -1,0 +1,27 @@
+# Task of the lab. It writes one line per crew name to the shared workspace
+# and reports how many lines it wrote.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: write-roster
+  namespace: starfleet
+spec:
+  params:
+    - name: crew
+      type: string
+      description: Space-separated crew names
+  results:
+    - name: count
+      description: How many names were written
+  workspaces:
+    - name: shared
+  steps:
+    - name: write
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        for name in $(params.crew); do
+          echo "$name" >> $(workspaces.shared.path)/roster.txt
+        done
+        printf '%s' "$(wc -l < $(workspaces.shared.path)/roster.txt)" | tee $(results.count.path)

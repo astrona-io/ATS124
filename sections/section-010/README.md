@@ -15,10 +15,13 @@ This section shows that model at work. You first learn what Tekton is, where it 
 - One pod per `TaskRun` and one container per step, and how the entrypoint binary runs the steps in order.
 - Which folders the steps share (`/workspace`, `/tekton/results`) and which they do not (`/tmp`).
 - Parameters, results, and the `Succeeded` condition with its reasons.
+- How to end a `TaskRun` with a timeout or a cancel, and how the reasons differ.
+- How a `Pipeline` becomes `TaskRuns`, how data moves between tasks, and what retries, `finally` and cancellation do.
+- What the webhook, the controller and the events controller each do, and where to look first when a run fails.
 
 ## The learning path
 
-The section has one module. It has a landing page, three short parts, a graded lab right after the part it tests, and a summary. The module also has its own playground, a cluster where you can explore freely, and the landing page starts it for you.
+The section has three modules. Each has a landing page, ordered parts, a graded lab right after the part it tests, and a summary. Each module also has its own playground, a cluster where you can explore freely, and the landing page starts it for you.
 
 ### 1. See How Tekton Runs A Task
 
@@ -27,11 +30,32 @@ The module starts at its landing page, which also launches the playground. The p
 1. What Tekton Is And The Tekton Ecosystem
 2. One Pod Per TaskRun, One Container Per Step
 3. Parameters, Results And The Status Of A TaskRun, followed by the lab **Diagnose A Failing TaskRun**
-4. Summary
+4. Timeouts And Cancellation
+5. Summary
+
+### 2. See How A Pipeline Becomes TaskRuns
+
+This module shows that a `PipelineRun` is a group of ordinary `TaskRuns`.
+
+1. Run Your First Pipeline
+2. How The Controller Builds A PipelineRun
+3. Pass Data Between Tasks, followed by the lab **Repair A Two-Task Pipeline**
+4. Failures, Retries, finally And Cancellation
+5. Summary
+
+### 3. Follow The Tekton Controllers
+
+This module follows the webhook, the controller and the events controller, and shows where the evidence of a failed run is.
+
+1. The Reconcile Loop And The Webhook
+2. ServiceAccounts, RBAC And The Pod Template
+3. Events, Conditions And Metrics
+4. Where To Look First, followed by the lab **Triage Four Failed Runs**
+5. Summary
 
 ## Section capstone: Repair A Multi-Step Task
 
-The capstone is one graded scenario that combines the whole module. The `inspect` Task of the `starfleet` team never worked: its TaskRun cannot find the Task, it asks for a ServiceAccount that does not exist, and two of its steps run in the wrong order. Find each fault from the TaskRun status and the pod, fix it, and prove the fix with a TaskRun that succeeds. Work it after the module lab.
+The capstone is one graded scenario that combines the first module. The `inspect` Task of the `starfleet` team never worked: its TaskRun cannot find the Task, it asks for a ServiceAccount that does not exist, and two of its steps run in the wrong order. Find each fault from the TaskRun status and the pod, fix it, and prove the fix with a TaskRun that succeeds. Work it after the module lab.
 
 Start the capstone:
 

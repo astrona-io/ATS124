@@ -439,13 +439,15 @@ ATS016: `title`, `path`, `difficulty`, `estimated_duration`, `topic`,
 
 - Execution model: `task`, `taskrun`, `step`, `pod-per-taskrun`,
   `entrypoint`, `params`, `results`, `workspace-dir`, `status-conditions`,
-  `serviceaccount`
+  `serviceaccount`, `pipeline`, `pipelinerun`, `retries`, `finally`
 - Architecture: `crds`, `pipelines-controller`, `webhook`,
-  `remote-resolvers`, `stepaction`, `ecosystem`
+  `remote-resolvers`, `stepaction`, `ecosystem`, `events`, `metrics`
 - Installation: `release-manifest`, `config-defaults`, `feature-flags`,
-  `dashboard`, `read-only-dashboard`, `rbac`
+  `dashboard`, `read-only-dashboard`, `rbac`, `logging`, `leader-election`
 - CLI: `tkn`, `tkn-task-start`, `tkn-taskrun-logs`, `tkn-taskrun-describe`,
-  `tkn-taskrun-delete`, `tkn-version`, `namespaces`, `kubeconfig-context`
+  `tkn-taskrun-delete`, `tkn-version`, `namespaces`, `kubeconfig-context`,
+  `tkn-pipeline-start`, `tkn-pipelinerun-logs`, `tkn-pipelinerun-cancel`,
+  `tkn-pipelinerun-delete`
 
 ### Running things
 

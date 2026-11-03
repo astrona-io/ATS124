@@ -13,10 +13,12 @@ This section sets up `tkn` and shows how it picks the cluster and namespace. The
 - Listing and describing Tasks, and starting them with `tkn task start`, `-p`, `--showlog`, `--use-param-defaults`, `--dry-run` and `--last`.
 - Listing and describing TaskRuns, reading results, and reading logs with `tkn taskrun logs` (`--last`, `-f`, `-s`, `-a`).
 - Cleaning up with `tkn taskrun delete` (`--task`, `--keep`, `--all`, `-f`).
+- Choosing output formats (`-o name`, `yaml`, `json`), previewing with `--dry-run`, and shell completion.
+- Starting, reading, cancelling, repeating and cleaning up Pipelines and PipelineRuns with `tkn`, and writing a `tkn` plugin.
 
 ## The learning path
 
-The section has one module. It has a landing page, three short parts, a graded lab right after the part it tests, and a summary. The module also has its own playground, a cluster where you can explore freely, and the landing page starts it for you.
+The section has two modules. Each has a landing page, ordered parts, a graded lab right after the part it tests, and a summary. Each module also has its own playground, a cluster where you can explore freely, and the landing page starts it for you.
 
 ### 1. Run And Inspect Work With tkn
 
@@ -25,11 +27,22 @@ The module starts at its landing page, which also launches the playground. The p
 1. Set Up tkn And Choose The Cluster And Namespace
 2. Start Tasks With tkn
 3. Inspect And Clean Up TaskRuns, followed by the lab **Run A Parameterised Task With tkn**
-4. Summary
+4. Output Formats, Dry Runs And Completion
+5. Summary
+
+### 2. Run Pipelines With tkn
+
+This module uses `tkn` for Pipelines and PipelineRuns.
+
+1. List, Describe And Start Pipelines
+2. Read PipelineRuns And Their Logs
+3. Cancel, Rerun And Clean Up, followed by the lab **Operate Pipelines With tkn**
+4. Plugins And Scripts
+5. Summary
 
 ## Section capstone: Triage And Rerun Work With tkn
 
-The capstone is one graded scenario that combines the whole module. The namespace `starfleet` is full of old runs of the Task `deploy-check`, some of them failed. Find out with `tkn` which step failed and which Tekton version runs, record what you found, delete only the failed runs, and start a new run with two parameters. Work it after the module lab.
+The capstone is one graded scenario that combines the first module. The namespace `starfleet` is full of old runs of the Task `deploy-check`, some of them failed. Find out with `tkn` which step failed and which Tekton version runs, record what you found, delete only the failed runs, and start a new run with two parameters. Work it after the module lab.
 
 Start the capstone:
 

@@ -1,0 +1,51 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: deliver
+  namespace: starfleet
+spec:
+  params:
+    - name: target
+      type: string
+    - name: tag
+      type: string
+      default: v1
+  tasks:
+    - name: prepare
+      params:
+        - name: target
+          value: $(params.target)
+      taskSpec:
+        params:
+          - name: target
+            type: string
+        steps:
+          - name: prepare
+            image: busybox:1.37.0
+            script: |
+              #!/bin/sh
+              echo "Preparing $(params.target)"
+    - name: ship
+      runAfter:
+        - prepare
+      params:
+        - name: target
+          value: $(params.target)
+        - name: tag
+          value: $(params.tag)
+      taskSpec:
+        params:
+          - name: target
+            type: string
+          - name: tag
+            type: string
+        steps:
+          - name: ship
+            image: busybox:1.37.0
+            script: |
+              #!/bin/sh
+              echo "Shipping $(params.target) as $(params.tag)"
+  results:
+    - name: summary
+      description: The target and the tag
+      value: $(params.target):$(params.tag)

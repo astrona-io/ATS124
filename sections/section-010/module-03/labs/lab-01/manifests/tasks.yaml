@@ -1,0 +1,45 @@
+# The Tasks the four failed TaskRuns refer to.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: echo-name
+  namespace: starfleet
+spec:
+  params:
+    - name: name
+      type: string
+  results:
+    - name: greeting
+  steps:
+    - name: greet
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        printf 'hello %s' "$(params.name)" | tee $(results.greeting.path)
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: fail-fast
+  namespace: starfleet
+spec:
+  steps:
+    - name: boom
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        echo "about to fail"
+        exit 1
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: sleeper
+  namespace: starfleet
+spec:
+  steps:
+    - name: sleep
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        sleep 120

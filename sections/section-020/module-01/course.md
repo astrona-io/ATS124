@@ -6,7 +6,7 @@ Tekton Pipelines installs from one YAML file, the release manifest. `kubectl app
 
 Keep one sentence in mind: **an installation is proved by a TaskRun that succeeds, not by pods that are running.** Running pods show that the containers started. Only a TaskRun shows that the webhook accepts objects, the controller creates pods, and the steps can run.
 
-The module has three parts. **Install Tekton Pipelines From The Release Manifest** applies the release, walks through what it created, and proves it with a first TaskRun. **Configure Defaults And Feature Flags** changes the default timeout and ServiceAccount, and shows when such a change takes effect. **Install The Tekton Dashboard** installs the read-only Dashboard, opens it in a browser, and compares it with the read/write release. A graded lab follows the third part.
+The module has four parts. **Install Tekton Pipelines From The Release Manifest** applies the release, walks through what it created, and proves it with a first TaskRun. **Configure Defaults And Feature Flags** changes the default timeout and ServiceAccount, and shows when such a change takes effect. **Install The Tekton Dashboard** installs the read-only Dashboard, opens it in a browser, and compares it with the read/write release. **Upgrade And Uninstall Tekton Pipelines** reads the installed version, upgrades with a newer release manifest and shows what an uninstall deletes. A graded lab follows the third part.
 
 ## Learning objectives
 
@@ -18,6 +18,7 @@ After this module you can:
 - Change `default-timeout-minutes` and `default-service-account` in `config-defaults`, and explain why old TaskRuns keep their old values.
 - Read the main switches in `feature-flags`.
 - Install the Tekton Dashboard v0.73.0 in read-only mode, open it on port `9097`, and explain what the read/write release adds.
+- Read the installed version, upgrade by applying a newer release manifest, check the result, and name what an uninstall deletes.
 
 ## Before you start
 

@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: wait-forever
+  namespace: starfleet
+spec:
+  tasks:
+    - name: hold
+      taskSpec:
+        steps:
+          - name: hold
+            image: busybox:1.37.0
+            script: |
+              #!/bin/sh
+              echo "Holding"
+              sleep 600

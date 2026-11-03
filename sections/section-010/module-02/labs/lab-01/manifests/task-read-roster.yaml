@@ -1,0 +1,24 @@
+# Task of the lab. It reads the roster from the shared workspace and reports
+# the count it was given and the first name.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: read-roster
+  namespace: starfleet
+spec:
+  params:
+    - name: count
+      type: string
+  results:
+    - name: report
+      description: A one-line summary of the roster
+  workspaces:
+    - name: shared
+  steps:
+    - name: read
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        set -eu
+        cat $(workspaces.shared.path)/roster.txt
+        printf 'roster has %s names, first: %s' "$(params.count)" "$(head -n 1 $(workspaces.shared.path)/roster.txt)" | tee $(results.report.path)

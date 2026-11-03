@@ -12,6 +12,7 @@
 
 `tkn taskrun list` shows runs with their status, `tkn taskrun describe --last` shows the Task, ServiceAccount, parameters, results and steps of the newest run, and `tkn taskrun logs` reads the step logs with `-f`, `-s`, `-a` and `-t`. `tkn taskrun delete` removes runs and their pods by name, with `--task` for one Task, `--keep` to keep the newest, or `--all`; `-f` skips the confirmation. The key facts to remember are these:
 
+- `-o name`, `-o yaml` and `-o json` give output for scripts; `--dry-run --output yaml` prints a `TaskRun` without creating it, and a file with `generateName` needs `kubectl create`.
 - `tkn` works in the current context's namespace unless you pass `-n` or `--context`.
 - Pass every parameter without a default with `-p`, especially in scripts.
 - `Succeeded` only means the steps exited with 0; read the results.

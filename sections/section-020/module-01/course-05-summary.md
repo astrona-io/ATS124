@@ -13,6 +13,7 @@ The ConfigMap `config-defaults` sets defaults such as `default-timeout-minutes` 
 The Tekton Dashboard installs into `tekton-pipelines` and listens on port `9097`. `release.yaml` installs it read-only; `release-full.yaml` installs it read/write and adds `edit` ClusterRoleBindings for its ServiceAccount. A port-forward opens it on `http://localhost:9097`, and `/v1/properties` reports its version, the Pipelines version and `isReadOnly`. The key facts to remember are these:
 
 - Pin the release version in the manifest address.
+- An upgrade is `kubectl apply` of the newer release manifest; an uninstall with `kubectl delete` of the manifest also deletes every Tekton object.
 - Wait for the webhook before you apply Tasks.
 - Defaults are written into a TaskRun once, at creation.
 - `kubectl apply` of the read-only release does not remove the `edit` bindings of the read/write release.

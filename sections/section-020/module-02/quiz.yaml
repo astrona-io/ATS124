@@ -1,0 +1,245 @@
+# Knowledge check for module 020-02. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+id: ats124-020-02
+course_id: ATS124
+exam_code: TEKTON
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "Operate The Tekton Installation"
+placement:
+  position: after
+  reading: sections/section-020/module-02/course-05-summary.md
+questions:
+  - id: ats124-020-02-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Set a log level"
+    source_readings:
+      - sections/section-020/module-02/course-01-logging-and-observability.md
+    prompt: "Which ConfigMap sets the log level of the Tekton controller?"
+    options:
+      - id: a
+        text: "config-logging, with the key loglevel.controller"
+        explanation: "Correct. The level debug is for a short investigation only."
+      - id: b
+        text: "config-defaults"
+        explanation: "Not correct. That ConfigMap sets defaults for new runs."
+      - id: c
+        text: "config-observability"
+        explanation: "Not correct. That ConfigMap controls metrics."
+      - id: d
+        text: "feature-flags"
+        explanation: "Not correct. That ConfigMap holds feature switches."
+    correct_option: a
+    explanation: "Correct. The level debug is for a short investigation only."
+
+  - id: ats124-020-02-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Know what Tekton keeps"
+    source_readings:
+      - sections/section-020/module-02/course-01-logging-and-observability.md
+    prompt: "Where are the logs of a finished step kept?"
+    options:
+      - id: a
+        text: "In the TaskRun status."
+        explanation: "Not correct. The status holds results and conditions, not logs."
+      - id: b
+        text: "In the pod, until the pod is deleted. Tekton does not store them."
+        explanation: "Correct. A cluster that must keep logs needs a log collector."
+      - id: c
+        text: "In the ConfigMap config-logging."
+        explanation: "Not correct. That ConfigMap only sets levels."
+      - id: d
+        text: "In the Dashboard database."
+        explanation: "Not correct. The Dashboard reads from the pod."
+    correct_option: b
+    explanation: "Correct. A cluster that must keep logs needs a log collector."
+
+  - id: ats124-020-02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Scale the controller"
+    source_readings:
+      - sections/section-020/module-02/course-02-high-availability-and-leader-election.md
+    prompt: "How do several controller replicas share work?"
+    options:
+      - id: a
+        text: "Each replica runs every TaskRun."
+        explanation: "Not correct. That would create duplicate pods."
+      - id: b
+        text: "Through a message queue Tekton installs."
+        explanation: "Not correct. Tekton uses Kubernetes Leases."
+      - id: c
+        text: "Through leader election with Lease objects, and buckets that divide the work."
+        explanation: "Correct. The timers are in config-leader-election-controller."
+      - id: d
+        text: "The webhook assigns runs to replicas."
+        explanation: "Not correct. The webhook does not assign work."
+    correct_option: c
+    explanation: "Correct. The timers are in config-leader-election-controller."
+
+  - id: ats124-020-02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose buckets"
+    source_readings:
+      - sections/section-020/module-02/course-02-high-availability-and-leader-election.md
+    prompt: "What should buckets be for a controller with three replicas?"
+    options:
+      - id: a
+        text: "1"
+        explanation: "Not correct. All the work would stay with one leader."
+      - id: b
+        text: "10"
+        explanation: "Not correct. More buckets than replicas is not the recommended setting."
+      - id: c
+        text: "0"
+        explanation: "Not correct. This is not a valid setting."
+      - id: d
+        text: "3"
+        explanation: "Correct. Set buckets equal to the number of controller replicas."
+    correct_option: d
+    explanation: "Correct. Set buckets equal to the number of controller replicas."
+
+  - id: ats124-020-02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Test a failover"
+    source_readings:
+      - sections/section-020/module-02/course-02-high-availability-and-leader-election.md
+    prompt: "How do you test a failover of the controller?"
+    options:
+      - id: a
+        text: "Delete only the pod that holds the lease and watch another replica take over."
+        explanation: "Correct. Another replica takes the Lease after about the lease duration."
+      - id: b
+        text: "Delete the Deployment."
+        explanation: "Not correct. This removes every replica."
+      - id: c
+        text: "Delete the ConfigMap."
+        explanation: "Not correct. This does not test the leader."
+      - id: d
+        text: "Delete all pods at once."
+        explanation: "Not correct. There would be no replica to take over."
+    correct_option: a
+    explanation: "Correct. Another replica takes the Lease after about the lease duration."
+
+  - id: ats124-020-02-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Scale the webhook"
+    source_readings:
+      - sections/section-020/module-02/course-02-high-availability-and-leader-election.md
+    prompt: "How is the webhook scaled?"
+    options:
+      - id: a
+        text: "With leader election and buckets."
+        explanation: "Not correct. That is for the controller."
+      - id: b
+        text: "With a HorizontalPodAutoscaler; it has no leader to wait for."
+        explanation: "Correct. Any webhook replica can answer a request."
+      - id: c
+        text: "It cannot run more than one replica."
+        explanation: "Not correct. It can."
+      - id: d
+        text: "With a ResourceQuota."
+        explanation: "Not correct. A quota limits a namespace."
+    correct_option: b
+    explanation: "Correct. Any webhook replica can answer a request."
+
+  - id: ats124-020-02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Set installation defaults"
+    source_readings:
+      - sections/section-020/module-02/course-03-limit-what-runs-can-use.md
+    prompt: "Which key of config-defaults sets the managed-by label on pods?"
+    options:
+      - id: a
+        text: "default-pod-template"
+        explanation: "Not correct. That key sets pod settings."
+      - id: b
+        text: "default-timeout-minutes"
+        explanation: "Not correct. That key sets the run timeout."
+      - id: c
+        text: "default-managed-by-label-value"
+        explanation: "Correct. The label is app.kubernetes.io/managed-by."
+      - id: d
+        text: "default-service-account"
+        explanation: "Not correct. That key sets the account."
+    correct_option: c
+    explanation: "Correct. The label is app.kubernetes.io/managed-by."
+
+  - id: ats124-020-02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Know who gets new defaults"
+    source_readings:
+      - sections/section-020/module-02/course-03-limit-what-runs-can-use.md
+    prompt: "You change default-pod-template. Which runs are affected?"
+    options:
+      - id: a
+        text: "All running pods."
+        explanation: "Not correct. Existing runs keep their values."
+      - id: b
+        text: "All TaskRuns, old and new."
+        explanation: "Not correct. Old runs are not rewritten."
+      - id: c
+        text: "No run until the controller restarts."
+        explanation: "Not correct. No restart is needed."
+      - id: d
+        text: "Only runs created afterwards, because the webhook writes defaults at creation."
+        explanation: "Correct. A ConfigMap change reaches the Deployments without a restart."
+    correct_option: d
+    explanation: "Correct. A ConfigMap change reaches the Deployments without a restart."
+
+  - id: ats124-020-02-q09
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Read a quota rule"
+    source_readings:
+      - sections/section-020/module-02/course-03-limit-what-runs-can-use.md
+    prompt: "A pod has three sequential steps with different requests. What does Tekton request for the pod?"
+    options:
+      - id: a
+        text: "The largest request of the steps, because steps run in sequence."
+        explanation: "Correct. A ResourceQuota that refuses the pod is treated as temporary and the controller keeps trying."
+      - id: b
+        text: "The sum of all steps."
+        explanation: "Not correct. Steps do not run at the same time."
+      - id: c
+        text: "The smallest request."
+        explanation: "Not correct. The pod needs the largest."
+      - id: d
+        text: "Nothing."
+        explanation: "Not correct. Requests are kept."
+    correct_option: a
+    explanation: "Correct. A ResourceQuota that refuses the pod is treated as temporary and the controller keeps trying."
+
+  - id: ats124-020-02-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Change an Operator install"
+    source_readings:
+      - sections/section-020/module-02/course-04-the-tekton-operator-and-tektonconfig.md
+    prompt: "On a cluster managed by the Tekton Operator, where do you change a default?"
+    options:
+      - id: a
+        text: "Directly in config-defaults."
+        explanation: "Not correct. The Operator overwrites manual edits."
+      - id: b
+        text: "In the TektonConfig named config."
+        explanation: "Correct. The TektonConfig owns the ConfigMaps."
+      - id: c
+        text: "In the Deployment."
+        explanation: "Not correct. The Operator manages it."
+      - id: d
+        text: "In the webhook."
+        explanation: "Not correct. The webhook is not configured there."
+    correct_option: b
+    explanation: "Correct. The TektonConfig owns the ConfigMaps."

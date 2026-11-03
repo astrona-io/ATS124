@@ -1,0 +1,6 @@
+data:
+  default-managed-by-label-value: "starfleet-ci"
+  default-pod-template: |
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 1000

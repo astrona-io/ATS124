@@ -1,0 +1,9 @@
+# A run created before any default is set. It stays as the "before" evidence.
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  name: before
+  namespace: starfleet
+spec:
+  taskRef:
+    name: whoami

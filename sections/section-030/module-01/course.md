@@ -6,7 +6,7 @@ You want to run a Task once with a different value, see its output while it runs
 
 Keep one sentence in mind: **`tkn` works in the cluster and namespace of your current kubeconfig context unless you say otherwise.** The flags `--context` and `-n` say otherwise. A Task with the same name can exist in two namespaces, and `tkn` happily starts the wrong one.
 
-The module has three parts. **Set Up tkn And Choose The Cluster And Namespace** installs `tkn`, checks it with `tkn version`, and shows how kubeconfig contexts and namespaces decide where it works. **Start Tasks With tkn** lists and describes Tasks and starts them with parameters, following their logs. **Inspect And Clean Up TaskRuns** lists, describes and reads TaskRuns, and deletes the ones you no longer need. A graded lab follows the third part.
+The module has four parts. **Set Up tkn And Choose The Cluster And Namespace** installs `tkn`, checks it with `tkn version`, and shows how kubeconfig contexts and namespaces decide where it works. **Start Tasks With tkn** lists and describes Tasks and starts them with parameters, following their logs. **Inspect And Clean Up TaskRuns** lists, describes and reads TaskRuns, and deletes the ones you no longer need. **Output Formats, Dry Runs And Completion** asks `tkn` for names, YAML or JSON, previews a run without creating it and sets up shell completion. A graded lab follows the third part.
 
 ## Learning objectives
 
@@ -18,6 +18,7 @@ After this module you can:
 - Start a Task with `tkn task start`, pass parameters with `-p`, and follow the logs with `--showlog`.
 - Read the status, parameters and results of a TaskRun with `tkn taskrun describe`, and its logs with `tkn taskrun logs`.
 - Delete TaskRuns with `tkn taskrun delete`, by name, by Task, or keeping the newest ones.
+- Choose `-o name`, `-o yaml` or `-o json`, preview a run with `--dry-run`, and set up shell completion.
 
 ## Before you start
 

@@ -16,5 +16,6 @@ Parameters bring values in as `$(params.<name>)`, and results bring short values
 - A failure before the pod (a missing parameter, a missing `Task`) leaves no pod and no log; read the condition message.
 - A failure in a step leaves a pod; read `status.steps` and the step's log.
 - A `TaskRun` cannot be edited after it starts; create a new one.
+- `spec.timeout` ends a run by time (reason `TaskRunTimeout`) and `spec.status: TaskRunCancelled` ends it by hand (reason `TaskRunCancelled`); only `spec.status` can change on a started run.
 
 <!-- astrona:playground:destroy -->

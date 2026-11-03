@@ -6,7 +6,7 @@ Tekton Pipelines adds new resource kinds to the Kubernetes API. A `Task` is a li
 
 Keep one sentence in mind: **a `TaskRun` is a pod, and a step is a container.** Everything you know about pods (logs, events, container status, volumes) applies to Tekton. What Tekton adds is the order of the steps and the status it writes back to the `TaskRun`.
 
-The module has three parts. **What Tekton Is And The Tekton Ecosystem** explains where Tekton comes from, lists the custom resources and the components Tekton Pipelines installs, and names the other Tekton projects. **One Pod Per TaskRun, One Container Per Step** runs a hello-world Task and opens up its pod: the containers, the entrypoint binary that puts the steps in order, and the folders the steps share. **Parameters, Results And The Status Of A TaskRun** passes values in, reads values out, and shows how to read a failed TaskRun. A graded lab follows the third part.
+The module has four parts. **What Tekton Is And The Tekton Ecosystem** explains where Tekton comes from, lists the custom resources and the components Tekton Pipelines installs, and names the other Tekton projects. **One Pod Per TaskRun, One Container Per Step** runs a hello-world Task and opens up its pod: the containers, the entrypoint binary that puts the steps in order, and the folders the steps share. **Parameters, Results And The Status Of A TaskRun** passes values in, reads values out, and shows how to read a failed TaskRun. **Timeouts And Cancellation** ends runs that take too long, in advance with a timeout and by hand with a cancellation. A graded lab follows the third part.
 
 ## Learning objectives
 
@@ -19,6 +19,7 @@ After this module you can:
 - Find the pod of a `TaskRun`, its step containers and its init containers.
 - Explain how the entrypoint binary runs steps in order, and which folders steps share.
 - Pass parameters, read results, and read the `Succeeded` condition of a `TaskRun`.
+- End a `TaskRun` with `spec.timeout` or `spec.status: TaskRunCancelled`, and tell `TaskRunTimeout`, `TaskRunCancelled` and `StepFailed` apart.
 
 ## Before you start
 

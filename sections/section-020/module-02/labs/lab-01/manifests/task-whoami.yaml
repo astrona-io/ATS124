@@ -1,0 +1,15 @@
+# The Task the lab runs. It reports the numeric user id of its step.
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: whoami
+  namespace: starfleet
+spec:
+  results:
+    - name: uid
+  steps:
+    - name: id
+      image: busybox:1.37.0
+      script: |
+        #!/bin/sh
+        id -u | tr -d '\n' | tee $(results.uid.path)
