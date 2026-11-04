@@ -13,7 +13,7 @@
 training:
   id: ATS124
   title: "Tekton: Fundamentals, Architecture & The tkn CLI"
-  maturity: draft
+  maturity: alpha
   description: >
     Training material covering the Fundamentals, Architecture & tkn CLI
     domain of the Tekton training path: what Tekton is and the projects of its
