@@ -1,12 +1,13 @@
 # Course manifest for ATS124 - Fundamentals, Architecture & tkn CLI (Tekton).
 #
-# One entry per section under `modules:`. Each section lists, in order: its
-# README, then for each module the landing page (course.md), its parts
-# (course-0N-*.md), and right after the part a lab tests, the lab's
-# question.md reading and the `type: lab` entry. The module's summary page
-# comes last. The section capstone closes the section. Playgrounds are not
-# listed: the landing page's playground marker shows them. solution.md is
-# never listed.
+# One entry per module under `modules:`, in section order. A module lists,
+# in order: the section README when it opens a section, its landing page
+# (course.md), its parts (course-0N-*.md), and right after the part a lab
+# tests, the lab's question.md reading and the `type: lab` entry. The
+# module's summary page and knowledge check come last. The last module of a
+# section also carries the section capstone and the section knowledge check.
+# Playgrounds are not listed: the playground marker on the landing page shows
+# them. solution.md is never listed.
 #
 # Every `path:` is relative to this file.
 
@@ -56,13 +57,14 @@ modules:
         title: "How This Course Is Made"
         path: sections/intro/course-03-how-this-course-is-made.md
 
-  - id: module-010
-    title: "Tekton Architecture And The Execution Model"
+  - id: module-010-01
+    title: "See How Tekton Runs A Task"
     description: >
-      What Tekton is and where it sits, the custom resources and components of
-      Tekton Pipelines, the Tekton ecosystem, and how a TaskRun runs: one pod
-      per TaskRun, one container per step, the entrypoint binary, shared
-      folders, parameters, results and the Succeeded condition.
+      Module 1 of 4 in Tekton Architecture And The Execution Model. Parts:
+      What Tekton Is And The Tekton Ecosystem; One Pod Per TaskRun, One
+      Container Per Step; Parameters, Results And The Status Of A TaskRun;
+      Timeouts And Cancellation. Graded lab: Diagnose A Failing TaskRun. Opens
+      with the section overview.
 
     content:
       - type: reading
@@ -110,6 +112,15 @@ modules:
         title: Summary
         path: sections/section-010/module-01/course-05-summary.md
 
+  - id: module-010-02
+    title: "See How A Pipeline Becomes TaskRuns"
+    description: >
+      Module 2 of 4 in Tekton Architecture And The Execution Model. Parts: Run
+      Your First Pipeline; How The Controller Builds A PipelineRun; Pass Data
+      Between Tasks; Failures, Retries, finally And Cancellation. Graded lab:
+      Repair A Two-Task Pipeline. Ends with a knowledge check.
+
+    content:
       - type: reading
         title: "See How A Pipeline Becomes TaskRuns"
         path: sections/section-010/module-02/course.md
@@ -155,6 +166,15 @@ modules:
         path: sections/section-010/module-02/quiz.yaml
         pass_score: 70
 
+  - id: module-010-03
+    title: "Follow The Tekton Controllers"
+    description: >
+      Module 3 of 4 in Tekton Architecture And The Execution Model. Parts: The
+      Reconcile Loop And The Webhook; ServiceAccounts, RBAC And The Pod
+      Template; Events, Conditions And Metrics; Where To Look First. Graded
+      lab: Triage Four Failed Runs. Ends with a knowledge check.
+
+    content:
       - type: reading
         title: "Follow The Tekton Controllers"
         path: sections/section-010/module-03/course.md
@@ -200,6 +220,16 @@ modules:
         path: sections/section-010/module-03/quiz.yaml
         pass_score: 70
 
+  - id: module-010-04
+    title: "Meet Triggers And Chains"
+    description: >
+      Module 4 of 4 in Tekton Architecture And The Execution Model. Parts:
+      Triggers: From Event To Run; Install And Use Triggers; Chains: Sign What
+      Runs Produce. Graded lab: Wire A Trigger To A Pipeline. Ends with a
+      knowledge check. Closes the section with its capstone lab and section
+      knowledge check.
+
+    content:
       - type: reading
         title: "Meet Triggers And Chains"
         path: sections/section-010/module-04/course.md
@@ -267,13 +297,14 @@ modules:
         path: sections/section-010/quiz.yaml
         pass_score: 70
 
-  - id: module-020
-    title: "Install Tekton Pipelines And The Dashboard"
+  - id: module-020-01
+    title: "Install And Configure Tekton"
     description: >
-      Installing Tekton Pipelines from its release manifest and verifying it,
-      what the release creates, changing defaults in config-defaults, reading
-      feature-flags, and installing the Tekton Dashboard in read-only or
-      read/write mode.
+      Module 1 of 3 in Install Tekton Pipelines And The Dashboard. Parts:
+      Install Tekton Pipelines From The Release Manifest; Configure Defaults
+      And Feature Flags; Install The Tekton Dashboard; Upgrade And Uninstall
+      Tekton Pipelines. Graded lab: Finish A Tekton Installation. Opens with
+      the section overview.
 
     content:
       - type: reading
@@ -321,6 +352,15 @@ modules:
         title: Summary
         path: sections/section-020/module-01/course-05-summary.md
 
+  - id: module-020-02
+    title: "Operate The Tekton Installation"
+    description: >
+      Module 2 of 3 in Install Tekton Pipelines And The Dashboard. Parts:
+      Logging And Observability; High Availability And Leader Election; Limit
+      What Runs Can Use; The Tekton Operator And TektonConfig. Graded lab: Set
+      Defaults For The Installation. Ends with a knowledge check.
+
+    content:
       - type: reading
         title: "Operate The Tekton Installation"
         path: sections/section-020/module-02/course.md
@@ -364,6 +404,16 @@ modules:
         path: sections/section-020/module-02/quiz.yaml
         pass_score: 70
 
+  - id: module-020-03
+    title: "Install Tekton With The Operator"
+    description: >
+      Module 3 of 3 in Install Tekton Pipelines And The Dashboard. Parts:
+      Install The Operator; Create The TektonConfig; Change, Upgrade And
+      Remove. Graded lab: Install Tekton With The Operator. Ends with a
+      knowledge check. Closes the section with its capstone lab and section
+      knowledge check.
+
+    content:
       - type: reading
         title: "Install Tekton With The Operator"
         path: sections/section-020/module-03/course.md
@@ -431,12 +481,13 @@ modules:
         path: sections/section-020/quiz.yaml
         pass_score: 70
 
-  - id: module-030
-    title: "Run And Inspect Work With The tkn CLI"
+  - id: module-030-01
+    title: "Run And Inspect Work With tkn"
     description: >
-      Installing tkn and checking it with tkn version, kubeconfig contexts and
-      namespaces, starting Tasks with parameters and following their logs, and
-      describing, reading and cleaning up TaskRuns.
+      Module 1 of 2 in Run And Inspect Work With The tkn CLI. Parts: Set Up
+      tkn And Choose The Cluster And Namespace; Start Tasks With tkn; Inspect
+      And Clean Up TaskRuns; Output Formats, Dry Runs And Completion. Graded
+      lab: Run A Parameterised Task With tkn. Opens with the section overview.
 
     content:
       - type: reading
@@ -482,6 +533,16 @@ modules:
         title: Summary
         path: sections/section-030/module-01/course-05-summary.md
 
+  - id: module-030-02
+    title: "Run Pipelines With tkn"
+    description: >
+      Module 2 of 2 in Run And Inspect Work With The tkn CLI. Parts: List,
+      Describe And Start Pipelines; Read PipelineRuns And Their Logs; Cancel,
+      Rerun And Clean Up; Plugins And Scripts. Graded lab: Operate Pipelines
+      With tkn. Ends with a knowledge check. Closes the section with its
+      capstone lab and section knowledge check.
+
+    content:
       - type: reading
         title: "Run Pipelines With tkn"
         path: sections/section-030/module-02/course.md
