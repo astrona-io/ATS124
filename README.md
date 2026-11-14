@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://astrona.io/courses/tekton">
+    <img src="https://astrona.io/courses/tekton/domains/ATS124.svg" alt="ATS124: Fundamentals, Architecture & tkn CLI, part of the Tekton course on Astrona" width="100%">
+  </a>
+</p>
+
 # ATS124 — Fundamentals, Architecture & tkn CLI (Tekton)
 
 Course material for the **Fundamentals, Architecture & tkn CLI** domain of
